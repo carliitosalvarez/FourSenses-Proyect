@@ -10,11 +10,8 @@ const Administracion = () => {
         <li>
           <Link to="/alta">Agregar Producto</Link>
         </li>
-        <li>
-          <Link to="/eliminar-producto">Eliminar Producto</Link>
-        </li>
-        <li>
-          <Link to="/listar-productos">Listar Productos</Link>
+           <li>
+          <Link to="/listar">Listar Productos</Link>
         </li>
       </ul>
     </div>
