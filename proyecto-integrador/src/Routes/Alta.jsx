@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
+import "../Alta.css";
 
 function Alta() {
   const [nombre, setNombre] = useState('');

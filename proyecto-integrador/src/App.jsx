@@ -5,8 +5,14 @@ import './App.css';
 import React from 'react';
 import Header from './Components/Header';
 import Home from "./Routes/Home";
-import Detalles from "./Routes/Detalles"; // Importa el componente Detalles
+import Detalles from "./Routes/Detalles";
 import Alta from './Routes/Alta';
+
+// Importa los componentes para las nuevas rutas
+import Administracion from './Routes/Administracion'; // Asegúrate de crear este componente
+
+
+
 function App() {
   return (
     <div className='App'>
@@ -16,11 +22,13 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/detalles/:id' element={<Detalles />} />
           <Route path='/alta' element={<Alta />} />
+
+          {/* Nuevas rutas */}
+          <Route path='/admin' element={<Administracion />} />
         </Routes>
       </div>
     </div>
   )
 }
-
 
 export default App;
