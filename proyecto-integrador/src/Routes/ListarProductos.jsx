@@ -21,7 +21,7 @@ const ListarProductos = () => {
           <tr>
             <th style={{ color: 'white' }}>Id</th>
             <th style={{ color: 'white' }}>Nombre</th>
-            <th style={{ color: 'white' }}>Eliminar</th>
+            <th style={{ color: 'white' }}>Acciones</th>
           </tr>
         </thead>
         <tbody>
