@@ -52,13 +52,17 @@ const ListarProductos = () => {
         }
         return response.json(); // Devolver la respuesta JSON para usarla en la siguiente promesa
       })
-      .then(data => {
-        // Actualizar el estado de datos con la lista actualizada
-        setDatos(data);
+      .then(() => {
+        // Hacer el fetch nuevamente para obtener la lista actualizada
+        fetch('http://localhost:8080/comidas')
+          .then(response => response.json())
+          .then(data => setDatos(data))
+          .catch(error => console.error('Error:', error));
       })
       .catch(error => console.error('Error:', error));
     }
   }
+  
   
 }
 
