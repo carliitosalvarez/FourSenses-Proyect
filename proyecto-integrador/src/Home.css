@@ -1,0 +1,18 @@
+.link {
+    cursor: pointer;
+  }
+  
+  .card-img-top {
+    max-height: 400px; /* Ajusta la altura máxima según tus preferencias */
+    object-fit: contain; /* Ajusta la imagen manteniendo la relación de aspecto */
+    
+  }
+
+  .card {
+    background-color: #D9D9D9;
+  }
+
+  
+  .home-container {
+    background-color: white;
+}

@@ -1,0 +1,35 @@
+.details-container {
+    color: white;
+    text-align: left;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .back-button img {
+    max-width: 30px; /* Ajusta el tamaño de la flecha hacia atrás */
+  }
+  
+  .image-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+  
+  .image-container img {
+    max-width: 300px;
+    height: auto;
+    margin: 10px;
+  }
+  
+  .back-button {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  

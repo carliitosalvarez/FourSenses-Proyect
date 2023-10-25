@@ -1,28 +1,24 @@
 /* eslint-disable */
 
-import { useState } from 'react'
-import {Route, Routes} from "react-router-dom"
-import './App.css'
-import React from 'react'
-import Header from './components/Header'
-import Menu from "./Routes/Home"
-import Home from "./Routes/Home"
-import Product from "./Routes/Product"
-import Alta from './Routes/Alta'
-function App() {
+import { Route, Routes } from "react-router-dom";
+import './App.css';
+import React from 'react';
+import Header from './Components/Header';
+import Home from "./Routes/Home";
+import Detalles from "./Routes/Detalles"; // Importa el componente Detalles
+import Alta from './Routes/Alta';
 
+function App() {
   return (
     <div className='App'>
-      <Header/>
+      <Header />
       <Routes>
-        <Route path='/' element={<Home/>}/>
-        <Route path='/menu' element={<Menu/>}/>
-        <Route path='/productos' element={<Product/>}/>
-        <Route path='/alta' element={<Alta/>}/>
-        </Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/detalles/:id' element={<Detalles />} /> {/* Ruta para Detalles con parámetro ID */}
+        <Route path='/alta' element={<Alta />} />
+      </Routes>
     </div>
-
   )
 }
 
-export default App
+export default App;
