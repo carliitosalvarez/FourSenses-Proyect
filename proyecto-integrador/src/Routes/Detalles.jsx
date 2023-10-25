@@ -25,6 +25,18 @@ const Detalles = () => {
     fetchDetalle();
   }, [id]);
 
+  const handleImageClick = (imagen) => {
+    const modal = document.getElementById("myModal");
+    modal.style.display = "block";
+    const modalImg = document.getElementById("img01");
+    modalImg.src = imagen;
+  };
+
+  const closeModal = () => {
+    const modal = document.getElementById("myModal");
+    modal.style.display = "none";
+  };
+
   return (
     <div className="details-container">
       {detalle ? (
@@ -38,8 +50,19 @@ const Detalles = () => {
           <p>{detalle.descripcion}</p>
           <div className="image-container">
             {detalle.imagenes.map((imagen, index) => (
-              <img key={index} src={imagen} alt={`Imagen ${index}`} />
+              <img
+                key={index}
+                src={imagen}
+                alt={`Imagen ${index}`}
+                onClick={() => handleImageClick(imagen)}
+              />
             ))}
+          </div>
+          <div id="myModal" className="modal">
+            <span className="close" onClick={closeModal}>&times;</span>
+            <div className="modal-content">
+              <img id="img01" src="" alt="Imagen ampliada" />
+            </div>
           </div>
         </div>
       ) : (
