@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from 'react';
+import "./ListarProductos.css";
 
 const ListarProductos = () => {
   const [datos, setDatos] = useState([]);
