@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 
 const Header = () => {
     return (
-        <Navbar className="nav">
+        <Navbar className="nav fixed-top">
             <Link to="/">
                 <img src="../images/FourSenses-Logo.png" alt=""/>
             </Link>

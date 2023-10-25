@@ -3,7 +3,7 @@
 import { Route, Routes } from "react-router-dom";
 import './App.css';
 import React from 'react';
-import Header from './Components/Header';
+import Header from './components/Header';
 import Home from "./Routes/Home";
 import Detalles from "./Routes/Detalles"; // Importa el componente Detalles
 import Alta from './Routes/Alta';

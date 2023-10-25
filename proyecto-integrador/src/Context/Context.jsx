@@ -13,7 +13,7 @@ const actions = {
   FETCH_DATA: "FETCH_DATA",
   ADD_DATA: "ADD_DATA",
   REMOVE_DATA: "REMOVE_DATA",
-  ERROR: "ERROR", // Añadí el tipo de acción ERROR
+  ERROR: "ERROR", 
 };
 
 const userReducer = (state, action) => {
@@ -21,12 +21,12 @@ const userReducer = (state, action) => {
     case actions.FETCH_DATA:
       return { ...state, loading: true };
     case actions.ADD_DATA:
-      return { ...state, data: action.payload, loading: false }; // Corregí "playload" a "payload"
+      return { ...state, data: action.payload, loading: false };
     case actions.REMOVE_DATA:
-      const updatedData = state.data.filter((item) => item.id !== action.payload); // Corregí "playload" a "payload"
+      const updatedData = state.data.filter((item) => item.id !== action.payload); 
       return { ...state, data: updatedData };
     case actions.ERROR:
-      return { ...state, error: action.payload }; // Manejar el error
+      return { ...state, error: action.payload };
     default:
       return state;
   }
@@ -45,7 +45,7 @@ const AppProvider = ({ children }) => {
         dispatch({ type: actions.ADD_DATA, payload: response.data });
       })
       .catch((error) => {
-        dispatch({ type: actions.ERROR, payload: error }); // Manejar el error
+        dispatch({ type: actions.ERROR, payload: error });
       });
   }, []);
 
