@@ -15,7 +15,11 @@ const Home = () => {
           throw new Error("Error al cargar las comidas");
         }
         const result = await response.json();
-        setData(result);
+
+        // Obtener 10 elementos aleatorios
+        const randomProducts = result.sort(() => Math.random() - Math.random()).slice(0, 10);
+
+        setData(randomProducts);
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -31,7 +35,7 @@ const Home = () => {
         {loading ? (
           <div className="col">Cargando...</div>
         ) : (
-          data.slice(0, 10).map((producto) => (
+          data.map((producto) => (
             <div key={producto.id} className="col-md-6 mb-4">
               <div className="card">
                 <img
