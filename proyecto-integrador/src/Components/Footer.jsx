@@ -1,8 +1,7 @@
-
 // eslint-disable-next-line no-unused-vars
 import React from "react";
 import "../Footer.css";
-import logo from "./tu_ruta_de_imagen.jpg"; // Ruta de tu imagen
+import logo from "../assets/copyright.png"; // Ruta de tu imagen
 
 const Footer = () => {
   return (

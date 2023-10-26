@@ -62,5 +62,9 @@
 
 
 .ContentContainer {
-  margin-top: 150px; /* Esto ajusta la distancia entre el header y el contenido */
+  margin-top: 140px; /* Esto ajusta la distancia entre el header y el contenido */
+}
+
+.App {
+  margin-bottom: 40px; /* Ajusta el espacio según tus preferencias */
 }

@@ -8,20 +8,28 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
-  }
-  
-  .left-content {
+    padding: 5px 20px; 
+    transition: 0.3s; 
+    z-index: 1000; 
+    height: 40px;
+    
+}
+
+.footer.hidden {
+    transform: translateY(100%); 
+}
+
+.left-content {
     display: flex;
     align-items: center;
-  }
-  
-  .logo {
-    max-width: 50px; /* Ajusta el tamaño de la imagen según tus preferencias */
+}
+
+.logo {
+    max-width: 100px; /* tmnho logo */
     margin-right: 10px;
-  }
-  
-  p {
+    max-height:80px;
+}
+
+p {
     margin: 0;
-  }
-  
+}

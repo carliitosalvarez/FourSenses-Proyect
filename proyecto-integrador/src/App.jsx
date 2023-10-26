@@ -7,9 +7,10 @@ import Header from './Components/Header';
 import Home from "./Routes/Home";
 import Detalles from "./Routes/Detalles";
 import Alta from './Routes/Alta';
+import Footer from './Components/Footer';
 
-// Importa los componentes para las nuevas rutas
-import Administracion from './Routes/Administracion'; // Asegúrate de crear este componente
+
+import Administracion from './Routes/Administracion'; 
 import ListarProductos from './Routes/ListarProductos'
 
 
@@ -29,6 +30,7 @@ function App() {
 
         </Routes>
       </div>
+      <Footer /> {/* Agregado el componente Footer */}
     </div>
   )
 }
