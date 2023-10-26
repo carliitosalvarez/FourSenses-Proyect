@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 import "../Home.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import buffets from "/images/buffets.jpg"; // Ruta de la primera imagen
-import cenas from "/images/cenas.jpg"; // Ruta de la primera imagen
-import desayunos from "/images/desayunos.jpg"; // Ruta de la primera imagen
-import postres from "/images/postres.jpg"; // Ruta de la primera imagen
+import buffets from "/images/buffets.jpg"; 
+import cenas from "/images/cenas.jpg";
+import desayunos from "/images/desayunos.jpg"; 
+import postres from "/images/postres.jpg"; 
 
 const Home = () => {
   const [data, setData] = useState([]);
@@ -23,10 +23,13 @@ const Home = () => {
         }
         const result = await response.json();
 
+        // Obtener las primeras 4 comidas
+        const featuredProducts = result.slice(0, 4);
+
         // Obtener 10 elementos aleatorios
         const randomProducts = result.sort(() => Math.random() - Math.random()).slice(0, 10);
 
-        setData(randomProducts);
+        setData({ featured: featuredProducts, random: randomProducts });
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -79,11 +82,41 @@ const Home = () => {
           <img src={buffets} alt="Imagen 5" className="img-fluid mx-1" />
         </div>
       </div>
-      <div className="row my-4">
+      <div className="row mt-4">
+        <div className="col-12">
+          <h3>Comidas Destacadas</h3>
+        </div>
         {loading ? (
           <div className="col">Cargando...</div>
         ) : (
-          data.map((producto) => (
+          data.featured.map((producto) => (
+            <div key={producto.id} className="col-md-6 mb-4">
+              <div className="card">
+                <img
+                  src={producto.imagenes[0]}
+                  alt={producto.nombre}
+                  className="card-img-top w-100 h-100"
+                />
+                <div className="card-body">
+                  <h5 className="card-title">
+                    <Link to={`/detalles/${producto.id}`} className="link">
+                      {producto.nombre}
+                    </Link>
+                  </h5>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+      <div className="row mt-4">
+        <div className="col-12">
+          <h3>Comidas Aleatorias</h3>
+        </div>
+        {loading ? (
+          <div className="col">Cargando...</div>
+        ) : (
+          data.random.map((producto) => (
             <div key={producto.id} className="col-md-6 mb-4">
               <div className="card">
                 <img
