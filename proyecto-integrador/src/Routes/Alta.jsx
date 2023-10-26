@@ -33,6 +33,10 @@ function Alta() {
       }
 
       alert('Comida guardada exitosamente');
+      setNombre('');
+      setDescripcion('');
+      setCategoria('Desayunos y Brunch');
+      setImagenes('');
     } catch (error) {
       console.error(error);
     }
