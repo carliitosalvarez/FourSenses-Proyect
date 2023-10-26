@@ -15,20 +15,20 @@ const ListarProductos = () => {
 
   return (
     <div className="lista-de-datos listar-productos">
-      <h2 style={{ color: 'white' }}>Lista de Datos</h2>
+      <h2 style={{ color: 'black' }}>Lista de Datos</h2>
       <table>
         <thead>
           <tr>
-            <th style={{ color: 'white' }}>Id</th>
-            <th style={{ color: 'white' }}>Nombre</th>
-            <th style={{ color: 'white' }}>Acciones</th>
+            <th style={{ color: 'black' }}>Id</th>
+            <th style={{ color: 'black' }}>Nombre</th>
+            <th style={{ color: 'black' }}>Acciones</th>
           </tr>
         </thead>
         <tbody>
           {datos.map(item => (
             <tr key={item.id}>
-              <td style={{ color: 'white' }}>{item.id}</td>
-              <td style={{ color: 'white' }}>{item.nombre}</td>
+              <td style={{ color: 'black' }}>{item.id}</td>
+              <td style={{ color: 'black' }}>{item.nombre}</td>
               <td>
                 <button onClick={() => handleEliminar(item.id)}>Eliminar</button>
               </td>
