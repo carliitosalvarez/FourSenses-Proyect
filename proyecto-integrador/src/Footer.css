@@ -12,7 +12,6 @@
     transition: 0.3s; 
     z-index: 1000; 
     height: 40px;
-    
 }
 
 .footer.hidden {
@@ -24,12 +23,17 @@
     align-items: center;
 }
 
+.right-content {
+    display: flex;
+}
+
 .logo {
     max-width: 100px; /* tmnho logo */
     margin-right: 10px;
     max-height:80px;
 }
-
-p {
-    margin: 0;
+.footer-img {
+    width: 35px; /* Ancho fijo de 35px para todas las imágenes */
+    height: auto; /* Mantiene la proporción de la imagen */
+    margin: 0 5px; /* Ajusta el margen entre las imágenes */
 }
