@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import "../Home.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import categoria from "../images/categorias.jpg"; // Ruta de la primera imagen
 
 const Home = () => {
   const [data, setData] = useState([]);
@@ -82,6 +83,23 @@ const Home = () => {
             </div>
           ))
         )}
+      </div>
+      <div className="row mt-4">
+        <div className="col-2">
+          <img src={categoria} alt="Imagen 1" className="img-fluid" />
+        </div>
+        <div className="col-2">
+          <img src={categoria} alt="Imagen 2" className="img-fluid" />
+        </div>
+        <div className="col-2">
+          <img src={categoria} alt="Imagen 3" className="img-fluid" />
+        </div>
+        <div className="col-2">
+          <img src={categoria} alt="Imagen 4" className="img-fluid" />
+        </div>
+        <div className="col-2">
+          <img src={categoria} alt="Imagen 5" className="img-fluid" />
+        </div>
       </div>
     </div>
   );
