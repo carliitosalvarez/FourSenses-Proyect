@@ -4,7 +4,10 @@ import { Link } from "react-router-dom";
 import "../Home.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import categoria from "../images/categorias.jpg"; // Ruta de la primera imagen
+import buffets from "/images/buffets.jpg"; // Ruta de la primera imagen
+import cenas from "/images/cenas.jpg"; // Ruta de la primera imagen
+import desayunos from "/images/desayunos.jpg"; // Ruta de la primera imagen
+import postres from "/images/postres.jpg"; // Ruta de la primera imagen
 
 const Home = () => {
   const [data, setData] = useState([]);
@@ -61,6 +64,22 @@ const Home = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div className="row justify-content-center mt-4">
+        <div className="col-2">
+          <img src={desayunos} alt="Imagen 2" className="img-fluid mx-1" />
+        </div>
+        <div className="col-2">
+          <img src={cenas} alt="Imagen 3" className="img-fluid mx-1" />
+        </div>
+        <div className="col-2">
+          <img src={postres} alt="Imagen 4" className="img-fluid mx-1" />
+        </div>
+        <div className="col-2">
+          <img src={buffets} alt="Imagen 5" className="img-fluid mx-1" />
+        </div>
+      </div>
+      <div className="row my-4">
         {loading ? (
           <div className="col">Cargando...</div>
         ) : (
@@ -83,23 +102,6 @@ const Home = () => {
             </div>
           ))
         )}
-      </div>
-      <div className="row mt-4">
-        <div className="col-2">
-          <img src={categoria} alt="Imagen 1" className="img-fluid" />
-        </div>
-        <div className="col-2">
-          <img src={categoria} alt="Imagen 2" className="img-fluid" />
-        </div>
-        <div className="col-2">
-          <img src={categoria} alt="Imagen 3" className="img-fluid" />
-        </div>
-        <div className="col-2">
-          <img src={categoria} alt="Imagen 4" className="img-fluid" />
-        </div>
-        <div className="col-2">
-          <img src={categoria} alt="Imagen 5" className="img-fluid" />
-        </div>
       </div>
     </div>
   );
