@@ -1,0 +1,27 @@
+.footer {
+    background-color: #e76c6c;
+    color: black;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+  }
+  
+  .left-content {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo {
+    max-width: 50px; /* Ajusta el tamaño de la imagen según tus preferencias */
+    margin-right: 10px;
+  }
+  
+  p {
+    margin: 0;
+  }
+  

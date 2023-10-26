@@ -7,6 +7,7 @@ import backButtonImage from "/images/esquema-de-boton-circular-de-flecha-hacia-a
 const Detalles = () => {
   const { id } = useParams();
   const [detalle, setDetalle] = useState(null);
+  const [showAllImages, setShowAllImages] = useState(false);
 
   useEffect(() => {
     const fetchDetalle = async () => {
@@ -49,14 +50,28 @@ const Detalles = () => {
           </div>
           <p>{detalle.descripcion}</p>
           <div className="image-container">
-            {detalle.imagenes.map((imagen, index) => (
+            <div className="first-image">
               <img
-                key={index}
-                src={imagen}
-                alt={`Imagen ${index}`}
-                onClick={() => handleImageClick(imagen)}
+                src={detalle.imagenes[0]}
+                alt="Imagen 0"
+                onClick={() => handleImageClick(detalle.imagenes[0])}
               />
-            ))}
+            </div>
+            <div className="other-images">
+              {detalle.imagenes.slice(1, showAllImages ? undefined : 5).map((imagen, index) => (
+                <img
+                  key={index + 1}
+                  src={imagen}
+                  alt={`Imagen ${index + 1}`}
+                  onClick={() => handleImageClick(imagen)}
+                />
+              ))}
+              {!showAllImages && (
+                <div className="more-images">
+                  <button onClick={() => setShowAllImages(true)}>Ver Más</button>
+                </div>
+              )}
+            </div>
           </div>
           <div id="myModal" className="modal">
             <span className="close" onClick={closeModal}>&times;</span>
