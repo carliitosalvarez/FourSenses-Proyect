@@ -2,10 +2,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../Home.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const Home = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [startDate, setStartDate] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,6 +35,31 @@ const Home = () => {
   return (
     <div className="container mt-5 home-container">
       <div className="row">
+        <div className="col-8 search-bar-container">
+          <h3>Buscar ofertas en servicios de catering y más</h3>
+          <div className="input-group">
+            <input
+              type="text"
+              className="form-control search-input"
+              placeholder="Buscar comida"
+              aria-label="Buscar comida"
+              aria-describedby="basic-addon2"
+            />
+            <div className="input-group-append">
+              <DatePicker
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+                dateFormat="dd/MM/yyyy"
+                isClearable
+                placeholderText="Seleccionar fecha"
+                className="form-control date-picker"
+              />
+              <button className="btn btn-primary search-button" type="button">
+                Buscar
+              </button>
+            </div>
+          </div>
+        </div>
         {loading ? (
           <div className="col">Cargando...</div>
         ) : (
