@@ -13,6 +13,8 @@ const Home = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [startDate, setStartDate] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,13 +25,10 @@ const Home = () => {
         }
         const result = await response.json();
 
-        // Obtener las primeras 4 comidas
-        const featuredProducts = result.slice(0, 4);
+        // Obtener comidas aleatorias
+        const randomProducts = result.sort(() => Math.random() - Math.random());
 
-        // Obtener 10 elementos aleatorios
-        const randomProducts = result.sort(() => Math.random() - Math.random()).slice(0, 10);
-
-        setData({ featured: featuredProducts, random: randomProducts });
+        setData(randomProducts);
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -38,6 +37,24 @@ const Home = () => {
 
     fetchData();
   }, []);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const goToNextPage = () => {
+    if (currentPage < Math.ceil(data.length / itemsPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const goToPrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   return (
     <div className="container mt-5 home-container">
@@ -89,51 +106,66 @@ const Home = () => {
         {loading ? (
           <div className="col">Cargando...</div>
         ) : (
-          data.featured.map((producto) => (
-            <div key={producto.id} className="col-md-6 mb-4">
-              <div className="card">
-                <img
-                  src={producto.imagenes[0]}
-                  alt={producto.nombre}
-                  className="card-img-top w-100 h-100"
-                />
-                <div className="card-body">
-                  <h5 className="card-title">
-                    <Link to={`/detalles/${producto.id}`} className="link">
-                      {producto.nombre}
-                    </Link>
-                  </h5>
+          <>
+            {currentItems.map((producto) => (
+              <div key={producto.id} className="col-md-6 mb-4">
+                <div className="card">
+                  <img
+                    src={producto.imagenes[0]}
+                    alt={producto.nombre}
+                    className="card-img-top w-100 h-100"
+                  />
+                  <div className="card-body">
+                    <h5 className="card-title">
+                      <Link to={`/detalles/${producto.id}`} className="link">
+                        {producto.nombre}
+                      </Link>
+                    </h5>
+                  </div>
                 </div>
               </div>
+            ))}
+            <div className="col-12 mt-4">
+              <ul className="pagination">
+                {currentPage > 1 && (
+                  <li className="page-item">
+                    <button
+                      className="page-link"
+                      onClick={goToPrevPage}
+                    >
+                      {"<"}
+                    </button>
+                  </li>
+                )}
+                {data.length > itemsPerPage &&
+                  Array(Math.ceil(data.length / itemsPerPage))
+                    .fill()
+                    .map((_, i) => (
+                      <li
+                        key={i}
+                        className={`page-item ${i + 1 === currentPage ? "active" : ""}`}
+                      >
+                        <button
+                          className="page-link"
+                          onClick={() => paginate(i + 1)}
+                        >
+                          {i + 1}
+                        </button>
+                      </li>
+                    ))}
+                {currentPage < Math.ceil(data.length / itemsPerPage) && (
+                  <li className="page-item">
+                    <button
+                      className="page-link"
+                      onClick={goToNextPage}
+                    >
+                      {">"}
+                    </button>
+                  </li>
+                )}
+              </ul>
             </div>
-          ))
-        )}
-      </div>
-      <div className="row mt-4">
-        <div className="col-12">
-          <h3>Comidas Aleatorias</h3>
-        </div>
-        {loading ? (
-          <div className="col">Cargando...</div>
-        ) : (
-          data.random.map((producto) => (
-            <div key={producto.id} className="col-md-6 mb-4">
-              <div className="card">
-                <img
-                  src={producto.imagenes[0]}
-                  alt={producto.nombre}
-                  className="card-img-top w-100 h-100"
-                />
-                <div className="card-body">
-                  <h5 className="card-title">
-                    <Link to={`/detalles/${producto.id}`} className="link">
-                      {producto.nombre}
-                    </Link>
-                  </h5>
-                </div>
-              </div>
-            </div>
-          ))
+          </>
         )}
       </div>
     </div>

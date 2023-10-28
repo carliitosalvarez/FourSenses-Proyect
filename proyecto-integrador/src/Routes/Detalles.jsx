@@ -8,6 +8,7 @@ const Detalles = () => {
   const { id } = useParams();
   const [detalle, setDetalle] = useState(null);
   const [showAllImages, setShowAllImages] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     const fetchDetalle = async () => {
@@ -26,7 +27,8 @@ const Detalles = () => {
     fetchDetalle();
   }, [id]);
 
-  const handleImageClick = (imagen) => {
+  const handleImageClick = (imagen, index) => {
+    setCurrentImageIndex(index);
     const modal = document.getElementById("myModal");
     modal.style.display = "block";
     const modalImg = document.getElementById("img01");
@@ -37,6 +39,40 @@ const Detalles = () => {
     const modal = document.getElementById("myModal");
     modal.style.display = "none";
   };
+
+  const handleLeftArrowClick = () => {
+    if (currentImageIndex > 0) {
+      setCurrentImageIndex(currentImageIndex - 1);
+      const modalImg = document.getElementById("img01");
+      modalImg.src = detalle.imagenes[currentImageIndex - 1];
+    }
+  };
+
+  const handleRightArrowClick = () => {
+    if (currentImageIndex < detalle.imagenes.length - 1) {
+      setCurrentImageIndex(currentImageIndex + 1);
+      const modalImg = document.getElementById("img01");
+      modalImg.src = detalle.imagenes[currentImageIndex + 1];
+    }
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        closeModal();
+      } else if (event.keyCode === 37) { // Flecha izquierda
+        handleLeftArrowClick();
+      } else if (event.keyCode === 39) { // Flecha derecha
+        handleRightArrowClick();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [currentImageIndex, detalle]);
 
   return (
     <div className="details-container">
@@ -54,7 +90,7 @@ const Detalles = () => {
               <img
                 src={detalle.imagenes[0]}
                 alt="Imagen 0"
-                onClick={() => handleImageClick(detalle.imagenes[0])}
+                onClick={() => handleImageClick(detalle.imagenes[0], 0)}
               />
             </div>
             <div className="other-images">
@@ -63,10 +99,10 @@ const Detalles = () => {
                   key={index + 1}
                   src={imagen}
                   alt={`Imagen ${index + 1}`}
-                  onClick={() => handleImageClick(imagen)}
+                  onClick={() => handleImageClick(imagen, index + 1)}
                 />
               ))}
-              {!showAllImages && (
+              {detalle.imagenes.length > 5 && !showAllImages && (
                 <div className="more-images">
                   <button onClick={() => setShowAllImages(true)}>Ver Más</button>
                 </div>
@@ -75,9 +111,25 @@ const Detalles = () => {
           </div>
           <div id="myModal" className="modal">
             <span className="close" onClick={closeModal}>&times;</span>
+            {currentImageIndex > 0 && (
+              <span
+                className="modal-prev"
+                onClick={handleLeftArrowClick}
+              >
+                &lt;
+              </span>
+            )}
             <div className="modal-content">
               <img id="img01" src="" alt="Imagen ampliada" />
             </div>
+            {currentImageIndex < detalle.imagenes.length - 1 && (
+              <span
+                className="modal-next"
+                onClick={handleRightArrowClick}
+              >
+                &gt;
+              </span>
+            )}
           </div>
         </div>
       ) : (

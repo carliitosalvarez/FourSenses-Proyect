@@ -29,9 +29,8 @@
   max-width: 50%;
   height: auto;
   cursor: pointer;
-  margin-left:400px;
+  margin-left: 400px;
   margin-top: 250px;
-
 }
 
 .other-images {
@@ -48,7 +47,7 @@
   height: auto;
   margin: 1%;
   cursor: pointer;
-  margin-right:100px;
+  margin-right: 100px;
 }
 
 .more-images {
@@ -96,6 +95,30 @@
   color: #aaaaaa;
   text-decoration: none;
   cursor: pointer;
+}
+
+.modal-prev,
+.modal-next {
+  color: #ffffff;
+  font-size: 36px;
+  font-weight: bold;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.modal-prev {
+  left: 10px;
+}
+
+.modal-next {
+  right: 10px;
+}
+
+.modal-prev:hover,
+.modal-next:hover {
+  color: #aaaaaa;
 }
 
 .modal-content img {
