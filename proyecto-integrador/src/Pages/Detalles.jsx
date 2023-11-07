@@ -2,7 +2,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import "../Detalles.css";
+import "../Styles/detalles.css";
 import backButtonImage from "/images/esquema-de-boton-circular-de-flecha-hacia-atras-izquierda.png"; // Ruta de la imagen
 
 const Detalles = () => {

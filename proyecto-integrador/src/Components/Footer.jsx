@@ -1,18 +1,20 @@
-// eslint-disable-next-line no-unused-vars
+// Footer.js
 import React from "react";
-import "../Footer.css";
-import logo from "../assets/copyright.png"; // Ruta de tu imagen
-import imagen1 from "../assets/instagram.png"; // Ruta de la imagen 1
-import imagen2 from "../assets/email.png"; // Ruta de la imagen 2
-import imagen3 from "../assets/ubicacion.png"; // Ruta de la imagen 3
-import imagen4 from "../assets/telefono.png"; // Ruta de la imagen 4
+import "../Styles/footer.css";
+import logo from "../assets/copyright.png";
+import imagen1 from "../assets/instagram.png";
+import imagen2 from "../assets/email.png";
+import imagen3 from "../assets/ubicacion.png";
+import imagen4 from "../assets/telefono.png";
 
 const Footer = () => {
   return (
     <footer className="footer">
       <div className="left-content">
+      <p>
         <img src={logo} alt="Logo" className="logo" />
-        <p>2023 FourSenses</p>
+        2023 FourSenses
+      </p>
       </div>
       <div className="right-content">
         <img src={imagen1} alt="Imagen 1" className="footer-img" />

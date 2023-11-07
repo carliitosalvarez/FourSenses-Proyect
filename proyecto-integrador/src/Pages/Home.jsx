@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import "../Home.css";
+import "../Styles/home.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import buffets from "/images/buffets.jpg"; 
