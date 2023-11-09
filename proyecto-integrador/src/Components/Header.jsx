@@ -3,20 +3,22 @@ import { Link, useLocation } from "react-router-dom";
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignInAlt, faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import { faSignInAlt, faUserPlus, faUsers, faUtensils, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../Context/AuthContext';
-import logo from '../assets/FourSenses-Logo.png'; 
+import logo from '../images/FourSenses-Logo.png'; 
 import '../Styles/header.css';
 import Modal from './Modal'; 
 
 const Header = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, isAdmin } = useAuth();
   const location = useLocation();
   const [showMenu, setShowMenu] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false); 
 
   const handleLogout = () => {
     logout();
+    window.location.href = '/'; 
   };
 
   const handleShowData = () => {
@@ -54,6 +56,31 @@ const Header = () => {
               <div className="menu">
                 <p onClick={handleShowData}>Datos</p>
                 <p onClick={handleLogout}>Cerrar Sesión</p>
+                <div 
+                  className={`dropdown ${showDropdown ? 'show' : ''}`}
+                  onMouseEnter={() => setShowDropdown(true)}
+                  onMouseLeave={() => setShowDropdown(false)}
+                >
+               {isAdmin() && (
+                  <>
+                  <span className="dropdown-toggle" role="button">
+                    Menú
+                  </span>
+                  <div className={`dropdown-menu ${showDropdown ? 'show' : ''} left-menu`}>
+                    <Link to="/users" className="dropdown-item">
+                      <FontAwesomeIcon icon={faUsers} /> Usuarios
+                    </Link>
+                    <Link to="/comida" className="dropdown-item">
+                      <FontAwesomeIcon icon={faUtensils} /> Comida
+                    </Link>
+                    <Link to="/productos" className="dropdown-item">
+                      <FontAwesomeIcon icon={faShoppingCart} /> Productos
+                    </Link>
+                  </div>
+                  </>
+                    )
+                  }
+                </div>
               </div>
             )}
           </div>

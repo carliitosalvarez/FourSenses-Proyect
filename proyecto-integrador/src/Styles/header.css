@@ -61,6 +61,12 @@
   text-align: center;
 }
 
+.left-menu {
+  left: auto;
+  right: 100%; 
+  top: 0;
+}
+
 .menu {
   position: absolute;
   top: 50px;

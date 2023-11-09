@@ -1,11 +1,11 @@
 // Footer.js
 import React from "react";
 import "../Styles/footer.css";
-import logo from "../assets/copyright.png";
-import imagen1 from "../assets/instagram.png";
-import imagen2 from "../assets/email.png";
-import imagen3 from "../assets/ubicacion.png";
-import imagen4 from "../assets/telefono.png";
+import logo from "../images/copyright.png";
+import imagen1 from "../images/instagram.png";
+import imagen2 from "../images/email.png";
+import imagen3 from "../images/ubicacion.png";
+import imagen4 from "../images/telefono.png";
 
 const Footer = () => {
   return (

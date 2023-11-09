@@ -12,9 +12,30 @@ const SignUp = () => {
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
+  const isEmailValid = (email) => {
+    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+    return emailRegex.test(email);
+  };
+
   const handleSignUp = async () => {
     try {
       setLoading(true);
+
+      if (!name || !surName) {
+        setError('Los campos de nombre y apellido son obligatorios.');
+        return;
+      }
+
+      if (!isEmailValid(email)) {
+        setError('Por favor, ingrese un correo electrónico válido.');
+        return;
+      }
+
+      if (password.length < 8) {
+        setError('La contraseña debe contener al menos 8 caracteres.');
+        return;
+      }
+
       await signUp({ name, surName, email, password });
       setSuccessMessage('Usuario registrado con éxito');
       setError('');

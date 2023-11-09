@@ -11,6 +11,8 @@ import Administracion from '../Pages/Administracion';
 import ListarProductos from '../Pages/ListarProductos';
 import Login from '../Pages/Login';
 import SignUp from '../Pages/SignUp';
+import User from './Users';
+import Productos from '../Pages/Productos';
 
 const App = () => {
   return (
@@ -26,6 +28,8 @@ const App = () => {
             <Route path='/listar' element={<ListarProductos />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<SignUp />} />
+            <Route path='/users' element={<User />} />
+            <Route path='/productos' element={<Productos />} />
           </Routes>
         </div>
         <Footer />

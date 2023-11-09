@@ -13,6 +13,10 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
+  const isAdmin = () => {
+    return user && user?.roles[0].id === 1;
+  };
+
   const login = async (credentials) => {
     try {
       const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/login`, credentials);
@@ -47,7 +51,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, signUp, logout }}>
+    <AuthContext.Provider value={{ user, login, signUp, logout, isAdmin }}>
       {children}
     </AuthContext.Provider>
   );
