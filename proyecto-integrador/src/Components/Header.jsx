@@ -70,9 +70,6 @@ const Header = () => {
                     <Link to="/users" className="dropdown-item">
                       <FontAwesomeIcon icon={faUsers} /> Usuarios
                     </Link>
-                    <Link to="/comida" className="dropdown-item">
-                      <FontAwesomeIcon icon={faUtensils} /> Comida
-                    </Link>
                     <Link to="/productos" className="dropdown-item">
                       <FontAwesomeIcon icon={faShoppingCart} /> Productos
                     </Link>
