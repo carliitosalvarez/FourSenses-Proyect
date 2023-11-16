@@ -61,6 +61,9 @@
   text-align: center;
 }
 
+.initials-circle p{
+  font-size: 60px;
+}
 .left-menu {
   left: auto;
   right: 100%; 
