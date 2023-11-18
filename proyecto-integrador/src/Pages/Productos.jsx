@@ -136,6 +136,7 @@ const Productos = () => {
         style={{ position: "absolute", top: 0, right: 0 }}
       >
         <FontAwesomeIcon icon={faPlus} />
+        Agregar
       </button>
       <h1>Listado de productos</h1>
       {loading ? (
@@ -239,7 +240,7 @@ const Productos = () => {
             Cancelar
           </Button>
           <Button
-            variant="primary"
+            variant="secondary"
             onClick={selectedProduct.id ? handleEditSave : handleAddNew}
           >
             {saving ? "Guardando..." : "Guardar"}

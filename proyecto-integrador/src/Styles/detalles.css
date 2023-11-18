@@ -1,5 +1,5 @@
 .details-container {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
   background-color: #fff;
@@ -32,12 +32,15 @@ p {
 .image-container {
   margin-top: 20px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .cover-image-detalle {
   object-fit: contain;
   height: 100%;
-  max-height: 500px;
+  max-height: 400px;
 }
 
 .first-image img {
@@ -57,7 +60,7 @@ p {
 .other-images img {
   max-width: 80px;
   height: auto;
-  margin-right: 10px;
+  margin-bottom: 10px; 
   cursor: pointer;
   transition: opacity 0.3s;
 }
@@ -73,8 +76,6 @@ p {
   color: #007bff;
   font-size: 16px;
 }
-
-
 
 .modal {
   display: none;
@@ -100,7 +101,9 @@ p {
   object-fit: contain;
 }
 
-.close, .modal-prev, .modal-next {
+.close,
+.modal-prev,
+.modal-next {
   color: #fff;
   font-size: 36px;
   position: absolute;
@@ -131,7 +134,7 @@ p {
   text-align: center;
   font-size: 14px;
   margin-bottom: 10px;
-  color: #666; 
+  color: #666;
 }
 
 .arrow-buttons {
@@ -144,13 +147,13 @@ p {
 .arrow-buttons .arrow-right {
   font-size: 24px;
   cursor: pointer;
-  color: #007bff; 
-  margin: 0 20px; 
+  color: #007bff;
+  margin: 0 20px;
 }
 
 .arrow-buttons .arrow-left:hover,
 .arrow-buttons .arrow-right:hover {
-  color: #0056b3; 
+  color: #0056b3;
 }
 
 @media (max-width: 768px) {
@@ -164,5 +167,71 @@ p {
 
   p {
     font-size: 16px;
+  }
+}
+
+.thumbnail-container {
+  display: flex;
+  flex-wrap: wrap; 
+  margin-top: 10px;
+  justify-content: center; 
+}
+
+.thumbnail {
+  width: 80px;
+  height: 60px;
+  margin-right: 10px;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.thumbnail.active {
+  border-color: #007bff; 
+}
+
+.thumbnail:hover {
+  border-color: #0056b3; 
+}
+
+.col-md-4 {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+
+.react-datepicker {
+  width: 100% !important;
+  max-width: 100% !important;
+  border: none !important;
+  box-shadow: none !important;
+  font-family: Arial, sans-serif !important;
+  background-color: transparent !important;
+}
+
+.btn-primary {
+  width: 100% !important;
+  max-width: 150px !important; 
+  margin-top: 10px !important; 
+}
+
+.react-datepicker__navigation--previous,
+.react-datepicker__navigation--next {
+  border: none !important; 
+  background: none !important;
+  color: #007bff !important; 
+  font-size: 1.8rem !important; 
+  cursor: pointer !important; 
+}
+
+.react-datepicker__navigation--previous:hover,
+.react-datepicker__navigation--next:hover {
+  color: #0056b3 !important; 
+}
+
+@media (max-width: 768px) {
+  .thumbnail {
+    width: 60px;
+    height: 45px;
+    margin-right: 5px;
   }
 }

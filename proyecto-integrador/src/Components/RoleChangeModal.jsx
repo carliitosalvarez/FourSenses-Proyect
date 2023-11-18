@@ -20,7 +20,7 @@ const RoleChangeModal = ({ show, onClose, onConfirm, currentRole, newRole, isLoa
       </Modal.Body>
       <Modal.Footer>
         <Button
-          variant="primary"
+          variant="secondary"
           onClick={async () => {
             setIsUpdating(true);
             await onConfirm();

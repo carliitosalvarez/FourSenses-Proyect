@@ -131,6 +131,10 @@
   white-space: nowrap; 
   text-overflow: ellipsis; 
 }
+.btnfind{
+  margin-bottom: 10px;
+  padding-left: 33px;
+}
 
 .categoria-badge {
   font-size: 12px; 
@@ -149,4 +153,19 @@
 
 .card-custom {
   height: 100%;
+}
+
+.favorite-star {
+  cursor: pointer;
+  font-size: 26px;
+  color: yellow;
+}
+
+.disabled-star {
+  cursor: not-allowed !important;
+}
+
+.nonfavorite-star{
+  cursor: pointer;
+  font-size: 26px;
 }

@@ -4,7 +4,7 @@ import Pagination from "../Components/Pagination";
 import RoleChangeModal from "../Components/RoleChangeModal";
 import '../Styles/users.css'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserCog, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faUserCog } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../Context/AuthContext';
 
 const Users = () => {

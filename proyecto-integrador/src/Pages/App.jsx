@@ -6,7 +6,6 @@ import Header from '../Components/Header';
 import Footer from '../Components/Footer';
 import Home from '../Pages/Home';
 import Detalles from '../Pages/Detalles';
-import ListarProductos from '../Pages/ListarProductos';
 import Login from '../Pages/Login';
 import SignUp from '../Pages/SignUp';
 import User from './Users';
@@ -21,7 +20,6 @@ const App = () => {
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/detalles/:id' element={<Detalles />} />
-            <Route path='/listar' element={<ListarProductos />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<SignUp />} />
             <Route path='/users' element={<User />} />
