@@ -8,6 +8,10 @@
   font-family: Arial, sans-serif;
 }
 
+.card-body{
+  margin: 0 auto;
+}
+
 .header {
   display: flex;
   justify-content: space-between;

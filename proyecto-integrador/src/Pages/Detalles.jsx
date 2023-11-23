@@ -124,6 +124,15 @@ const Detalles = () => {
     setCurrentImageIndex(index);
   };
 
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  
+  const handleDateChange = (dates) => {
+    const [start, end] = dates;
+    setStartDate(start);
+    setEndDate(end);
+  };
+
   return (
     <div className="details-container">
       {detalle ? (
@@ -135,7 +144,7 @@ const Detalles = () => {
             </div>
           </div>
           <div className="row">
-            <div className="col-md-8">
+            <div className="col-md-12">
               <div className="image-container">
                 <img
                   src={detalle.imagenes[currentImageIndex] || sinimagen}
@@ -181,14 +190,18 @@ const Detalles = () => {
               )}
               <br />
             </div>
-            <div className="col-md-4">
+            <div className="col-md-12">
               <div className="card">
                 <div className="card-body">
                   <h5 className="card-title">Calendario</h5>
                   <DatePicker
-                    selected={selectedDate}
-                    onChange={(date) => setSelectedDate(date)}
+                    selected={startDate}
+                    onChange={handleDateChange}
+                    startDate={startDate}
+                    endDate={endDate}
                     inline
+                    monthsShown={2}
+                    selectsRange
                     minDate={new Date()}
                     excludeDates={blockedDates}
                   />
