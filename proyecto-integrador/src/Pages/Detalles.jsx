@@ -19,7 +19,6 @@ const Detalles = () => {
   const [detalle, setDetalle] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const currentDate = new Date();
-  const [selectedDate, setSelectedDate] = useState(currentDate);
   const [blockedDates, setBlockedDates] = useState([]);
   const { user } = useAuth();
   const [isReserving, setIsReserving] = useState(false);
@@ -45,7 +44,7 @@ const Detalles = () => {
   };
 
   const findNextAvailableDate = (blockedDatesFromEndpoint) => {
-    let nextDate = new Date(selectedDate);
+    let nextDate = new Date(startDate);
     while (blockedDatesFromEndpoint.some((date) => date.getDate() === nextDate.getDate())) {
       nextDate.setDate(nextDate.getDate() + 1);
     }
@@ -61,7 +60,7 @@ const Detalles = () => {
         parseISO(dateString)
       );
       setBlockedDates(blockedDatesFromEndpoint);
-      setSelectedDate(findNextAvailableDate(blockedDatesFromEndpoint));
+      setStartDate(findNextAvailableDate(blockedDatesFromEndpoint));
     } catch (error) {
       console.error(error);
     }
@@ -78,7 +77,7 @@ const Detalles = () => {
     try {
       setIsReserving(true);
 
-      const formattedDate = selectedDate ? formatDate(selectedDate) : "";
+      const formattedDate = startDate ? formatDate(startDate) : "";
 
       const reservationData = {
         userId: user.id,
@@ -124,13 +123,14 @@ const Detalles = () => {
     setCurrentImageIndex(index);
   };
 
-  const [startDate, setStartDate] = useState(null);
+  const [startDate, setStartDate] = useState(currentDate);
   const [endDate, setEndDate] = useState(null);
   
   const handleDateChange = (dates) => {
     const [start, end] = dates;
     setStartDate(start);
     setEndDate(end);
+    startDate
   };
 
   return (
