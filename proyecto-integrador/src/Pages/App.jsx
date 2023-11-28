@@ -10,6 +10,9 @@ import Login from '../Pages/Login';
 import SignUp from '../Pages/SignUp';
 import User from './Users';
 import Productos from '../Pages/Productos';
+import Reserva from '../Pages/Reserva';
+
+
 
 const App = () => {
   return (
@@ -24,6 +27,8 @@ const App = () => {
             <Route path='/signup' element={<SignUp />} />
             <Route path='/users' element={<User />} />
             <Route path='/productos' element={<Productos />} />
+            <Route path='/reservas' element={<Reserva />} />
+            
           </Routes>
         </div>
         <Footer />
