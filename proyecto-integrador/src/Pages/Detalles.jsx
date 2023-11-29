@@ -65,11 +65,8 @@ const Detalles = () => {
 
   const handleReserveClick = async () => {
     try {
-      // const response = await axios.post(
-      //   `${import.meta.env.VITE_BASE_SERVER_URL}/reservas`,
-      //   reservationData
-      // );
-
+      await blockDatesFromEndpoint(); 
+  
       // Redirige a /reservas
       navigate("/reservas", {
         state: {
@@ -83,7 +80,7 @@ const Detalles = () => {
             startDate: startDate,
             endDate: endDate,
           },
-          blockedDates: blockedDates,
+          blockedDates: blockedRanges, 
         },
       });
     } catch (error) {
@@ -92,6 +89,7 @@ const Detalles = () => {
       setIsReserving(false);
     }
   };
+  
 
   const handleLeftArrowClick = () => {
     if (detalle.imagenes.length > 1 && currentImageIndex > 0) {
@@ -115,21 +113,19 @@ const Detalles = () => {
   const handleDateChange = (dates) => {
     const [start, end] = dates;
 
-    // Verificar si el rango seleccionado contiene fechas bloqueadas
     for (
       let currentDate = new Date(start);
       currentDate <= end;
       currentDate.setDate(currentDate.getDate() + 1)
     ) {
       if (blockedDates.includes(currentDate.toISOString())) {
-        alert("No se puede reservar porque contiene fechas bloqueadas.");
+        alert("Esa fecha ya se encuentra reservada");
         setStartDate(null);
         setEndDate(null);
         return;
       }
     }
 
-    // Si no hay fechas bloqueadas, verificar si el rango seleccionado intersecta con los rangos bloqueados
     const intersectsWithBlockedRanges = blockedRanges.some((range) => {
       return start <= range.endDate && end >= range.startDate;
     });
@@ -141,7 +137,6 @@ const Detalles = () => {
       return;
     }
 
-    // Si no hay fechas bloqueadas ni intersecciones con rangos bloqueados, establecer las fechas seleccionadas
     setStartDate(start);
     setEndDate(end);
   };

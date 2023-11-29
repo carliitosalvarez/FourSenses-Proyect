@@ -1,26 +1,21 @@
 // eslint-disable-next-line no-unused-vars
-//bueno3
-// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import { parseISO } from 'date-fns';
 import { useLocation } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
-import '../Styles/reserva.css';
-import axios from "axios";
-
+import axios from 'axios';
 
 const formatDate = (date) => {
   if (!date) {
-    return ""; 
+    return '';
   }
 
   const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 };
-
 
 const MyForm = () => {
   const location = useLocation();
@@ -31,14 +26,10 @@ const MyForm = () => {
     ciudad: '',
   });
 
-
-
-
-  
+  const [blockedRanges, setBlockedRanges] = useState([]);
   const [dates, setDates] = useState({
     start: null,
     end: null,
-    excludeDates: [parseISO(new Date().toISOString()) + 2],
   });
 
   const [detalleInfo, setDetalleInfo] = useState({
@@ -48,9 +39,20 @@ const MyForm = () => {
     imagenes: [],
   });
 
+  const [initialDate, setInitialDate] = useState(new Date());
 
+  useEffect(() => {
+    if (dates.start) {
+      setInitialDate(dates.start);
+    }
+  }, [dates.start]);
 
-
+  useEffect(() => {
+    if (location.state) {
+      const { blockedDates } = location.state;
+      setBlockedRanges(blockedDates);
+    }
+  }, [location.state]);
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem('user'));
@@ -68,7 +70,6 @@ const MyForm = () => {
       setDates({
         start: selectedDates.startDate,
         end: selectedDates.endDate,
-        excludeDates: [parseISO(new Date().toISOString()) + 2],
       });
 
       setDetalleInfo(detalleFromState);
@@ -76,39 +77,71 @@ const MyForm = () => {
   }, [location.state]);
 
   const handleCalendarChange = (date) => {
+    for (
+      let currentDate = new Date(date[0]);
+      currentDate <= date[1];
+      currentDate.setDate(currentDate.getDate() + 1)
+    ) {
+      if (
+        blockedRanges.some(
+          (range) => currentDate >= range.startDate && currentDate <= range.endDate
+        )
+      ) {
+        alert('Esa fecha ya se encuentra reservada');
+        setDates({
+          start: null,
+          end: null,
+        });
+        return;
+      }
+    }
+
     setDates({
       start: date[0],
       end: date[1],
-      excludeDates: [parseISO(new Date().toISOString()) + 2],
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    const isConfirmed = window.confirm("¿Confirmar la reserva?");
+
+    const isConfirmed = window.confirm('¿Confirmar la reserva?');
     if (isConfirmed) {
       try {
+        for (
+          let currentDate = new Date(dates.start);
+          currentDate <= dates.end;
+          currentDate.setDate(currentDate.getDate() + 1)
+        ) {
+          if (
+            blockedRanges.some(
+              (range) => currentDate >= range.startDate && currentDate <= range.endDate
+            )
+          ) {
+            alert('No se puede reservar porque contiene fechas bloqueadas.');
+            return;
+          }
+        }
+
         const reservationData = {
           userId: formData.id,
           comidaIds: [detalleInfo.id],
           fechaInicio: formatDate(dates.start),
           fechaFin: formatDate(dates.end),
         };
-  
+
         const response = await axios.post(
           `${import.meta.env.VITE_BASE_SERVER_URL}/reservas`,
           reservationData
         );
-  
-      alert("Reserva realizada con exito!")
+
+        alert('Reserva realizada con éxito!');
       } catch (error) {
-        alert("No se pudo realizar la reserva!")
+        alert('No se pudo realizar la reserva!');
         console.error(error);
       }
     }
   };
-  
 
   return (
     <div className="container row">
@@ -173,7 +206,7 @@ const MyForm = () => {
             <h2>Calendario Doble</h2>
             <div className="d-flex justify-content-center">
               <DatePicker
-                selected={parseISO(new Date().toISOString())}
+                selected={initialDate}
                 onChange={handleCalendarChange}
                 startDate={dates.start}
                 endDate={dates.end}
@@ -181,10 +214,17 @@ const MyForm = () => {
                 monthsShown={2}
                 selectsRange
                 minDate={parseISO(new Date().toISOString())}
-                excludeDates={dates.excludeDates}
+                excludeDates={blockedRanges.flatMap((range) => {
+                  const dates = [];
+                  let currentDate = new Date(range.startDate);
+                  while (currentDate <= range.endDate) {
+                    dates.push(new Date(currentDate));
+                    currentDate.setDate(currentDate.getDate() + 1);
+                  }
+                  return dates;
+                })}
               />
             </div>
-
             <button type="submit">Confirmar Reserva</button>
           </form>
         </div>
@@ -202,6 +242,5 @@ const MyForm = () => {
     </div>
   );
 };
-//<button className="confirm-btn">Confirmar Reserva</button>
 
 export default MyForm;
