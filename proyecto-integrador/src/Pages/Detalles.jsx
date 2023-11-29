@@ -1,5 +1,6 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "../Styles/detalles.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -15,6 +16,7 @@ import { useAuth } from "../Context/AuthContext";
 import { parseISO } from "date-fns";
 
 const Detalles = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [detalle, setDetalle] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -22,6 +24,8 @@ const Detalles = () => {
   const [blockedDates, setBlockedDates] = useState([]);
   const { user } = useAuth();
   const [isReserving, setIsReserving] = useState(false);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   useEffect(() => {
     fetchDetalle();
@@ -29,7 +33,7 @@ const Detalles = () => {
 
   useEffect(() => {
     blockDatesFromEndpoint();
-  }, []);
+  }, [id]);
 
   const fetchDetalle = async () => {
     try {
@@ -43,14 +47,6 @@ const Detalles = () => {
     }
   };
 
-  const findNextAvailableDate = (blockedDatesFromEndpoint) => {
-    let nextDate = new Date(startDate);
-    while (blockedDatesFromEndpoint.some((date) => date.getDate() === nextDate.getDate())) {
-      nextDate.setDate(nextDate.getDate() + 1);
-    }
-    return nextDate;
-  };
-
   const blockDatesFromEndpoint = async () => {
     try {
       const response = await axios.get(
@@ -60,45 +56,36 @@ const Detalles = () => {
         parseISO(dateString)
       );
       setBlockedDates(blockedDatesFromEndpoint);
-      setStartDate(findNextAvailableDate(blockedDatesFromEndpoint));
     } catch (error) {
       console.error(error);
     }
   };
 
-  const formatDate = (date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
-
   const handleReserveClick = async () => {
     try {
-      setIsReserving(true);
+      // const response = await axios.post(
+      //   `${import.meta.env.VITE_BASE_SERVER_URL}/reservas`,
+      //   reservationData
+      // );
 
-      const formattedDate = startDate ? formatDate(startDate) : "";
+      // Redirige a /reservas
+      navigate('/reservas', {
+        state: {
+          detalle: {
+            id: detalle.id,
+            nombre: detalle.nombre,
+            descripcion: detalle.descripcion,
+            imagenes: detalle.imagenes,
+          },
+          selectedDates: {
+            startDate: startDate,
+            endDate: endDate,
+          },
+        },
+      });
 
-      const reservationData = {
-        userId: user.id,
-        comidaIds: [id],
-        fechaReserva: formattedDate,
-      };
-
-      const response = await axios.post(
-        `${import.meta.env.VITE_BASE_SERVER_URL}/reservas`,
-        reservationData
-      );
-
-      if (response.status === 201) {
-        alert("Reserva realizada con éxito");
-        blockDatesFromEndpoint();
-      } else {
-        alert("No se pudo realizar la reserva");
-      }
     } catch (error) {
       console.error(error);
-      alert("Hubo un error al realizar la reserva");
     } finally {
       setIsReserving(false);
     }
@@ -123,14 +110,10 @@ const Detalles = () => {
     setCurrentImageIndex(index);
   };
 
-  const [startDate, setStartDate] = useState(currentDate);
-  const [endDate, setEndDate] = useState(null);
-  
   const handleDateChange = (dates) => {
     const [start, end] = dates;
     setStartDate(start);
     setEndDate(end);
-    startDate
   };
 
   return (
@@ -195,7 +178,7 @@ const Detalles = () => {
                 <div className="card-body">
                   <h5 className="card-title">Calendario</h5>
                   <DatePicker
-                    selected={startDate}
+                    selected={null}
                     onChange={handleDateChange}
                     startDate={startDate}
                     endDate={endDate}

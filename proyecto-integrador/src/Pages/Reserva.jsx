@@ -1,9 +1,27 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from 'react';
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import "../Styles/reserva.css";
+import DatePicker from 'react-datepicker';
+import { parseISO } from 'date-fns';
+import { useLocation } from 'react-router-dom';
+import 'react-datepicker/dist/react-datepicker.css';
+import '../Styles/reserva.css';
+import axios from "axios";
+
+
+const formatDate = (date) => {
+  if (!date) {
+    return ""; 
+  }
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
 
 const MyForm = () => {
+  const location = useLocation();
   const [formData, setFormData] = useState({
     nombre: '',
     apellido: '',
@@ -11,100 +29,169 @@ const MyForm = () => {
     ciudad: '',
   });
 
-  const [ dates, setDates ] = useState({ start: null, end: null, excludeDates: [ new Date() + 2 ] });
-  const today = new Date();
-  
+  const [dates, setDates] = useState({
+    start: null,
+    end: null,
+    excludeDates: [parseISO(new Date().toISOString()) + 2],
+  });
+
+  const [detalleInfo, setDetalleInfo] = useState({
+    id: '',
+    nombre: '',
+    descripcion: '',
+    imagenes: [],
+  });
+
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem('user'))
+    const storedUser = JSON.parse(localStorage.getItem('user'));
     setFormData({
+      id: storedUser.id,
       nombre: storedUser.name,
       apellido: storedUser.surName,
       correo: storedUser.email,
-    })
+    });
 
-    // Get excludeDates from Back
-    // setDates({})    
-  }, [])
+    const detalleFromState = location.state?.detalle;
+    const selectedDates = location.state?.selectedDates;
+
+    if (detalleFromState && selectedDates) {
+      setDates({
+        start: selectedDates.startDate,
+        end: selectedDates.endDate,
+        excludeDates: [parseISO(new Date().toISOString()) + 2],
+      });
+
+      setDetalleInfo(detalleFromState);
+    }
+  }, [location.state]);
 
   const handleCalendarChange = (date) => {
-    // Manejar cambios en el calendario si es necesario
-    console.log(date);
+    setDates({
+      start: date[0],
+      end: date[1],
+      excludeDates: [parseISO(new Date().toISOString()) + 2],
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // if(formData.nombre.trim() != "") {
-    // }
-
-    try {
-      // let res = await axios.post(`${import.meta.env.VITE_BASE_SERVER_URL}/reservas`, formData);
-    } catch(e) {
-      // Tirar mensajito de error
+  
+    const isConfirmed = window.confirm("¿Confirmar la reserva?");
+    if (isConfirmed) {
+      try {
+        const reservationData = {
+          userId: formData.id,
+          comidaIds: [detalleInfo.id],
+          fechaInicio: formatDate(dates.start),
+          fechaFin: formatDate(dates.end),
+        };
+  
+        const response = await axios.post(
+          `${import.meta.env.VITE_BASE_SERVER_URL}/reservas`,
+          reservationData
+        );
+  
+      alert("Reserva realizada con exito!")
+      } catch (error) {
+        alert("No se pudo realizar la reserva!")
+        console.error(error);
+      }
     }
-
-    console.log('Datos del formulario:', formData);
   };
+  
 
-  return <div className="container row">
-      <div className='col-md-9'>
+  return (
+    <div className="container row">
+      <div className="col-md-9">
         <h2>Completa estos datos</h2>
         <div style={{ border: '1px solid #ccc', padding: '10px', marginBottom: '20px' }}>
           <form onSubmit={handleSubmit}>
-
-            <div className='form-inline'>
-              <div className='col'>
+            <div className="form-inline">
+              <div className="col">
                 <div className="form-group">
-                  <input type="text" className="form-control" name='nombre' value={formData.nombre} placeholder="Enter nombre" readOnly/>
+                  <label>Nombre:&nbsp;</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="nombre"
+                    value={formData.nombre}
+                    placeholder="Ingresa tu nombre"
+                    readOnly
+                  />
                 </div>
 
                 <div className="form-group">
-                  <input type="text" className="form-control" name='apellido' value={formData.apellido} placeholder="Enter apellido" readOnly />
+                  <label>Apellido:&nbsp;</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="apellido"
+                    value={formData.apellido}
+                    placeholder="Ingresa tu apellido"
+                    readOnly
+                  />
                 </div>
               </div>
 
-              <div className='col'>
+              <div className="col">
                 <div className="form-group">
-                  <input type="email" className="form-control" name='correo' value={formData.correo} placeholder="Enter correo" readOnly/>
+                  <label>Correo:&nbsp;</label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    name="correo"
+                    value={formData.correo}
+                    placeholder="Ingresa tu correo"
+                    readOnly
+                  />
                 </div>
 
                 <div className="form-group">
-                  <input type="text" className="form-control" name='ciudad' value={formData.ciudad} placeholder="Enter ciudad" readOnly/>
+                  <label>Ciudad:&nbsp;</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="ciudad"
+                    value={formData.ciudad}
+                    placeholder="Ingresa tu ciudad"
+                    readOnly
+                  />
                 </div>
               </div>
             </div>
-           
+
             <h2>Calendario Doble</h2>
-            <div className='d-flex justify-content-center'>
+            <div className="d-flex justify-content-center">
               <DatePicker
-                  selected={today}
-                  onChange={handleCalendarChange}
-                  startDate={dates.start}
-                  endDate={dates.end}
-                  inline
-                  monthsShown={2}
-                  selectsRange
-                  minDate={today}
-                  excludeDates={dates.excludeDates}
-                />
+                selected={parseISO(new Date().toISOString())}
+                onChange={handleCalendarChange}
+                startDate={dates.start}
+                endDate={dates.end}
+                inline
+                monthsShown={2}
+                selectsRange
+                minDate={parseISO(new Date().toISOString())}
+                excludeDates={dates.excludeDates}
+              />
             </div>
 
-            <button type="submit">Enviar</button>
+            <button type="submit">Confirmar Reserva</button>
           </form>
         </div>
       </div>
 
-      <div className='col-md-3'>
+      <div className="col-md-3">
         <div className="card">
           <div className="title">Detalle de Reserva</div>
-          <img src="ruta_de_la_imagen.jpg" alt="Imagen de producto" />
-          <div className="subtitle">Nombre del Producto</div>
-          <div className="dates">Fecha de inicio: 01/01/2023</div>
-          <div className="dates">Fecha de finalización: 05/01/2023</div>
-          <button className="confirm-btn">Confirmar Reserva</button>
+          <img src={detalleInfo.imagenes[0]} alt="Imagen de producto" />
+          <div className="subtitle">{detalleInfo.nombre}</div>
+          <div className="dates">Fecha de inicio: {formatDate(dates.start)}</div>
+          <div className="dates">Fecha de finalización: {formatDate(dates.end)}</div>
         </div>
       </div>
     </div>
+  );
 };
+//<button className="confirm-btn">Confirmar Reserva</button>
 
 export default MyForm;
