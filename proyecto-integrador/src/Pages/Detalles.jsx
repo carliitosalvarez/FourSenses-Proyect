@@ -26,6 +26,7 @@ const Detalles = () => {
   const [isReserving, setIsReserving] = useState(false);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [blockedRanges, setBlockedRanges] = useState([]);
 
   useEffect(() => {
     fetchDetalle();
@@ -52,10 +53,11 @@ const Detalles = () => {
       const response = await axios.get(
         `${import.meta.env.VITE_BASE_SERVER_URL}/reservas/${id}`
       );
-      const blockedDatesFromEndpoint = response.data.map((dateString) =>
-        parseISO(dateString)
-      );
-      setBlockedDates(blockedDatesFromEndpoint);
+      const blockedRangesFromEndpoint = response.data.map((dateRange) => ({
+        startDate: parseISO(dateRange[0]),
+        endDate: parseISO(dateRange[1]),
+      }));
+      setBlockedRanges(blockedRangesFromEndpoint);
     } catch (error) {
       console.error(error);
     }
@@ -69,7 +71,7 @@ const Detalles = () => {
       // );
 
       // Redirige a /reservas
-      navigate('/reservas', {
+      navigate("/reservas", {
         state: {
           detalle: {
             id: detalle.id,
@@ -81,9 +83,9 @@ const Detalles = () => {
             startDate: startDate,
             endDate: endDate,
           },
+          blockedDates: blockedDates,
         },
       });
-
     } catch (error) {
       console.error(error);
     } finally {
@@ -112,6 +114,34 @@ const Detalles = () => {
 
   const handleDateChange = (dates) => {
     const [start, end] = dates;
+
+    // Verificar si el rango seleccionado contiene fechas bloqueadas
+    for (
+      let currentDate = new Date(start);
+      currentDate <= end;
+      currentDate.setDate(currentDate.getDate() + 1)
+    ) {
+      if (blockedDates.includes(currentDate.toISOString())) {
+        alert("No se puede reservar porque contiene fechas bloqueadas.");
+        setStartDate(null);
+        setEndDate(null);
+        return;
+      }
+    }
+
+    // Si no hay fechas bloqueadas, verificar si el rango seleccionado intersecta con los rangos bloqueados
+    const intersectsWithBlockedRanges = blockedRanges.some((range) => {
+      return start <= range.endDate && end >= range.startDate;
+    });
+
+    if (intersectsWithBlockedRanges) {
+      alert("No se puede reservar porque contiene fechas bloqueadas.");
+      setStartDate(null);
+      setEndDate(null);
+      return;
+    }
+
+    // Si no hay fechas bloqueadas ni intersecciones con rangos bloqueados, establecer las fechas seleccionadas
     setStartDate(start);
     setEndDate(end);
   };
@@ -177,8 +207,9 @@ const Detalles = () => {
               <div className="card">
                 <div className="card-body">
                   <h5 className="card-title">Calendario</h5>
+
                   <DatePicker
-                    selected={null}
+                    selected={startDate}
                     onChange={handleDateChange}
                     startDate={startDate}
                     endDate={endDate}
@@ -186,7 +217,15 @@ const Detalles = () => {
                     monthsShown={2}
                     selectsRange
                     minDate={new Date()}
-                    excludeDates={blockedDates}
+                    excludeDates={blockedRanges.flatMap((range) => {
+                      const dates = [];
+                      let currentDate = new Date(range.startDate);
+                      while (currentDate <= range.endDate) {
+                        dates.push(new Date(currentDate));
+                        currentDate.setDate(currentDate.getDate() + 1);
+                      }
+                      return dates;
+                    })}
                   />
                 </div>
               </div>

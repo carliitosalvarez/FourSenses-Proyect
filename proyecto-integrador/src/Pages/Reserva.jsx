@@ -1,4 +1,6 @@
 // eslint-disable-next-line no-unused-vars
+//bueno3
+// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import { parseISO } from 'date-fns';
@@ -29,6 +31,10 @@ const MyForm = () => {
     ciudad: '',
   });
 
+
+
+
+  
   const [dates, setDates] = useState({
     start: null,
     end: null,
@@ -41,6 +47,10 @@ const MyForm = () => {
     descripcion: '',
     imagenes: [],
   });
+
+
+
+
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem('user'));
