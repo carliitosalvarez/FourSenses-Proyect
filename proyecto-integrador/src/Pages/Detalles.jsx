@@ -48,6 +48,8 @@ const Detalles = () => {
     }
   };
 
+  
+
   const blockDatesFromEndpoint = async () => {
     try {
       const response = await axios.get(
@@ -65,8 +67,15 @@ const Detalles = () => {
 
   const handleReserveClick = async () => {
     try {
-      await blockDatesFromEndpoint(); 
-  
+      // Verificar si el usuario está logeado
+      if (!user) {
+        // Si no está logeado, redirigir a la página de login
+        navigate("/login");
+        return;
+      }
+
+      await blockDatesFromEndpoint();
+
       // Redirige a /reservas
       navigate("/reservas", {
         state: {
@@ -80,7 +89,7 @@ const Detalles = () => {
             startDate: startDate,
             endDate: endDate,
           },
-          blockedDates: blockedRanges, 
+          blockedDates: blockedRanges,
         },
       });
     } catch (error) {
@@ -89,6 +98,7 @@ const Detalles = () => {
       setIsReserving(false);
     }
   };
+
   
 
   const handleLeftArrowClick = () => {
@@ -244,5 +254,7 @@ const Detalles = () => {
     </div>
   );
 };
+
+
 
 export default Detalles;
