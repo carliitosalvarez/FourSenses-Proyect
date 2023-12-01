@@ -11,7 +11,7 @@ import SignUp from '../Pages/SignUp';
 import User from './Users';
 import Productos from '../Pages/Productos';
 import Reserva from '../Pages/Reserva';
-
+import Historial from '../Pages/Historial'
 
 
 const App = () => {
@@ -28,7 +28,8 @@ const App = () => {
             <Route path='/users' element={<User />} />
             <Route path='/productos' element={<Productos />} />
             <Route path='/reservas' element={<Reserva />} />
-            
+            <Route path='/historial' element={<Historial />} />
+
           </Routes>
         </div>
         <Footer />

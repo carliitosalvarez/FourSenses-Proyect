@@ -18,7 +18,7 @@ const formatDate = (date) => {
   return `${year}-${month}-${day}`;
 };
 
-const MyForm = () => {
+const Reserva = () => {
   const location = useLocation();
   const [formData, setFormData] = useState({
     nombre: '',
@@ -374,4 +374,4 @@ const MyForm = () => {
   );
 };
 
-export default MyForm;
+export default Reserva;

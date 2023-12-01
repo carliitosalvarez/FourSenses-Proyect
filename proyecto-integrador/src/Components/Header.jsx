@@ -25,6 +25,10 @@ const Header = () => {
     setShowModal(true);
   };
 
+  const handleHistorial = () => {
+      window.location.href = '/historial'; 
+  };
+
   const initials = user ? `${(user.name?.charAt(0) || '').toUpperCase()}${(user.surName?.charAt(0) || '').toUpperCase()}` : '';
 
   return (
@@ -55,6 +59,7 @@ const Header = () => {
             {showMenu && (
               <div className="menu">
                 <p onClick={handleShowData}>Datos</p>
+                <p onClick={handleHistorial}>Historial</p>
                 <p onClick={handleLogout}>Cerrar Sesión</p>
                 <div 
                   className={`dropdown ${showDropdown ? 'show' : ''}`}
