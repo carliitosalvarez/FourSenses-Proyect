@@ -1,0 +1,39 @@
+/* Estilo general del componente */
+div {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Estilo del título */
+  h1 {
+    color: #333;
+    text-align: center;
+  }
+  
+  /* Estilo de la tabla */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  /* Estilo de las celdas de la tabla */
+  td, th {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+  }
+  
+  /* Estilo de las celdas de la cabecera de la tabla */
+  th {
+    background-color: #eee;
+    font-weight: bold;
+  }
+  
+  /* Estilo de las filas impares de la tabla */
+  tr:nth-child(odd) {
+    background-color: #f0f0f0;
+  }
+  
