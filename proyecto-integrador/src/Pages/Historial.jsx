@@ -1,23 +1,49 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import '../Styles/historial.css';
+import { useAuth } from '../Context/AuthContext';
 
 const Historial = () => {
   const [historialData, setHistorialData] = useState([]);
+  const { user } = useAuth();
 
   useEffect(() => {
-    // Hacer la llamada al endpoint
-    fetch('http://localhost:8080/reservas/historial/1')
-      .then(response => response.json())
-      .then(data => setHistorialData(data))
-      .catch(error => console.error('Error fetching data:', error));
-  }, []); // La dependencia vacía asegura que se llama solo una vez al montar el componente
+    const fetchHistorial = async () => {
+      try {
+        if (user && user.id) {
+          const response = await axios.get(
+            `${import.meta.env.VITE_BASE_SERVER_URL}/reservas/historial/${user.id}`
+          );
+          const historialData = response.data;
+          setHistorialData(historialData);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchHistorial();
+  }, [user]); 
+
+
+  const opcionesFechaHora = {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+    hour12: false,
+  };
+  
+  
 
   return (
     <div>
       <h1>Historial de Reservas</h1>
       <form>
-        <table>
+        <table className="historial-table">
           <thead>
             <tr>
               <th>Nombre</th>
@@ -29,10 +55,12 @@ const Historial = () => {
           <tbody>
             {historialData.map((reserva, index) => (
               <tr key={index}>
-                <td>{reserva[1]}</td>
+                <td>
+                  <a href={`/detalles/${reserva[0]}`}>{reserva[1]}</a>
+                </td>
                 <td>{reserva[2]}</td>
                 <td>{reserva[3]}</td>
-                <td>{new Date(reserva[4]).toLocaleDateString()}</td>
+                <td>{new Date(reserva[4]).toLocaleString(undefined, opcionesFechaHora)}</td>
               </tr>
             ))}
           </tbody>
