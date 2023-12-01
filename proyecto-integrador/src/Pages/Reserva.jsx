@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import { parseISO } from 'date-fns';
 import { useLocation } from 'react-router-dom';
-import 'react-datepicker/dist/react-datepicker.css';
+//import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
-import "../Styles/datapicker.css";
+//import '../Styles/datapicker.css';
 
 const formatDate = (date) => {
   if (!date) {
@@ -159,7 +159,6 @@ const MyForm = () => {
 
 
   function showModal(message) {
-    // Crear un elemento modal
     let modal = document.createElement("div");
     modal.style.display = "flex";
     modal.style.justifyContent = "center";
@@ -172,7 +171,6 @@ const MyForm = () => {
     modal.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
     modal.style.zIndex = "1000";
   
-    // Crear un contenedor para el contenido del modal
     let modalContent = document.createElement("div");
     modalContent.style.backgroundColor = "#fff";
     modalContent.style.padding = "20px";
@@ -182,12 +180,10 @@ const MyForm = () => {
     modalContent.style.maxHeight = "80%";
     modalContent.style.overflowY = "auto";
   
-    // Crear un elemento de texto
     let text = document.createElement("p");
     text.innerText = message;
     text.style.marginBottom = "20px";
   
-    // Crear un botón de cierre
     let closeButton = document.createElement("button");
     closeButton.innerText = "Cerrar";
     closeButton.style.backgroundColor = "#007BFF";
@@ -200,14 +196,11 @@ const MyForm = () => {
       document.body.removeChild(modal);
     };
   
-    // Agregar texto y botón al contenedor del modal
     modalContent.appendChild(text);
     modalContent.appendChild(closeButton);
   
-    // Agregar contenedor al modal
     modal.appendChild(modalContent);
   
-    // Agregar modal al cuerpo del documento
     document.body.appendChild(modal);
   }
   
@@ -338,26 +331,31 @@ const MyForm = () => {
 
             <h2>Fechas de Reserva</h2>
             <div className="d-flex justify-content-center">
-              <DatePicker
-                selected={initialDate}
-                onChange={handleCalendarChange}
-                startDate={dates.start}
-                endDate={dates.end}
-                inline
-                monthsShown={2}
-                selectsRange
-                minDate={parseISO(new Date().toISOString())}
-                excludeDates={blockedRanges.flatMap((range) => {
-                  const dates = [];
-                  let currentDate = new Date(range.startDate);
-                  while (currentDate <= range.endDate) {
-                    dates.push(new Date(currentDate));
-                    currentDate.setDate(currentDate.getDate() + 1);
-                  }
-                  return dates;
-                })}
-              />
-            </div>
+  <div className="calendar-container">
+    <DatePicker
+      selected={initialDate}
+      onChange={handleCalendarChange}
+      startDate={dates.start}
+      endDate={dates.end}
+      inline
+      monthsShown={2}
+      selectsRange
+      minDate={parseISO(new Date().toISOString())}
+      excludeDates={blockedRanges.flatMap((range) => {
+        const dates = [];
+        let currentDate = new Date(range.startDate);
+        while (currentDate <= range.endDate) {
+          dates.push(new Date(currentDate));
+          currentDate.setDate(currentDate.getDate() + 1);
+        }
+        return dates;
+      })}
+    />
+  </div>
+</div>
+
+
+
             <button type="submit">Confirmar Reserva</button>
           </form>
         </div>

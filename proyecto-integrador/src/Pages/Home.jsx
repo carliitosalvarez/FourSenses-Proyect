@@ -20,7 +20,7 @@ import moment from 'moment';
 import DatePicker from 'react-datepicker';
 
 
-const categorias = ["Desayunos y Brunch", "Cenas", "Postres", "Buffets"];
+const categorias = ["Desayuno","Desayunos y Brunch", "Cenas", "Postres", "Buffets"];
 
 const Home = () => {
   const { user } = useAuth();

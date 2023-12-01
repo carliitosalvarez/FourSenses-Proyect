@@ -1,58 +1,32 @@
-.range-datepicker {
-    display: flex;
-    justify-content: center;
-}
-
-.range-datepicker .react-datepicker {
-    background-color: #f5f5f5 !important; 
-    border: 1px solid #ddd !important;
-    font-size: 14px !important; 
-    width: auto !important;
-}
+/* Nuevos estilos */
+.calendar-container {
+    display: inline-block;
+  }
   
-.range-datepicker .react-datepicker__header {
-    background-color: #ddd !important; 
-    color: #333 !important;
-    border-bottom: none !important; 
-}
+  /* Estilos para el contenedor principal del calendario */
+  .react-datepicker-wrapper {
+    position: relative;
+  }
   
-.range-datepicker .react-datepicker__current-month {
-    font-size: 16px !important; 
-    color: #333 !important; 
-}
+  .react-datepicker {
+    max-width: 100%;
+    border: none;
+    box-shadow: none;
+    font-family: Arial, sans-serif;
+    background-color: transparent;
+  }
   
-.range-datepicker .react-datepicker__day-names {
-    background-color: #ddd !important; 
-}
+  .react-datepicker__navigation--previous,
+  .react-datepicker__navigation--next {
+    border: none;
+    background: none;
+    color: #007bff;
+    font-size: 1.8rem;
+    cursor: pointer;
+  }
   
-.range-datepicker .react-datepicker__day {
-    color: #333 !important;
-    &:hover {
-      background-color: #d9534f !important; 
-      color: #fff !important; 
-    }
-}
+  .react-datepicker__navigation--previous:hover,
+  .react-datepicker__navigation--next:hover {
+    color: #0056b3;
+  }
   
-.range-datepicker .react-datepicker__day--selected {
-    background-color: #d9534f !important; 
-    color: #fff !important; 
-}
-  
-.range-datepicker .react-datepicker__day--in-range {
-    background-color: #e0e0e0 !important; 
-    color: #333 !important; 
-}
-  
-.range-datepicker .react-datepicker__day--disabled {
-    color: #ccc !important; 
-}
-  
-.range-datepicker input {
-    width: 200px;
-}
-
-@media screen and (max-width: 1000px) {
-    .range-datepicker input {
-        width: 100%;
-    }
-}
