@@ -65,11 +65,64 @@ const Detalles = () => {
     }
   };
 
+
+  function showModal(message) {
+    let modal = document.createElement("div");
+    modal.style.display = "flex";
+    modal.style.justifyContent = "center";
+    modal.style.alignItems = "center";
+    modal.style.position = "fixed";
+    modal.style.top = "0";
+    modal.style.right = "0";
+    modal.style.bottom = "0";
+    modal.style.left = "0";
+    modal.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+    modal.style.zIndex = "1000";
+  
+    let modalContent = document.createElement("div");
+    modalContent.style.backgroundColor = "#fff";
+    modalContent.style.padding = "20px";
+    modalContent.style.borderRadius = "8px";
+    modalContent.style.maxWidth = "80%";
+    modalContent.style.minWidth = "300px";
+    modalContent.style.display = "flex";
+    modalContent.style.flexDirection = "column";
+    modalContent.style.gap = "20px";
+    modalContent.style.alignItems = "center";
+  
+    let text = document.createElement("p");
+    text.innerText = message;
+    text.style.textAlign = "center";
+  
+    let closeButton = document.createElement("button");
+    closeButton.innerText = "Cerrar";
+    closeButton.style.backgroundColor = "#007BFF";
+    closeButton.style.color = "#fff";
+    closeButton.style.border = "none";
+    closeButton.style.padding = "10px 20px";
+    closeButton.style.borderRadius = "5px";
+    closeButton.style.cursor = "pointer";
+    closeButton.onclick = function () {
+      document.body.removeChild(modal);
+    };
+  
+    modalContent.appendChild(text);
+    modalContent.appendChild(closeButton);
+  
+    modal.appendChild(modalContent);
+  
+    document.body.appendChild(modal);
+  }
+  
+
+
+
   const handleReserveClick = async () => {
     try {
       // Verificar si el usuario está logeado
       if (!user) {
         // Si no está logeado, redirigir a la página de login
+        showModal('Para realizar una reserva, es necesario estar registrado');
         navigate("/login");
         return;
       }
@@ -120,6 +173,59 @@ const Detalles = () => {
     setCurrentImageIndex(index);
   };
 
+
+  function showModal(message) {
+    let modal = document.createElement("div");
+    modal.style.display = "flex";
+    modal.style.justifyContent = "center";
+    modal.style.alignItems = "center";
+    modal.style.position = "fixed";
+    modal.style.top = "0";
+    modal.style.right = "0";
+    modal.style.bottom = "0";
+    modal.style.left = "0";
+    modal.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+    modal.style.zIndex = "1000";
+  
+    let modalContent = document.createElement("div");
+    modalContent.style.backgroundColor = "#fff";
+    modalContent.style.padding = "20px";
+    modalContent.style.borderRadius = "8px";
+    modalContent.style.maxWidth = "80%";
+    modalContent.style.minWidth = "300px";
+    modalContent.style.maxHeight = "80%";
+    modalContent.style.overflowY = "auto";
+  
+    let text = document.createElement("p");
+    text.innerText = message;
+    text.style.marginBottom = "20px";
+  
+    let closeButton = document.createElement("button");
+    closeButton.innerText = "Cerrar";
+    closeButton.style.backgroundColor = "#007BFF";
+    closeButton.style.color = "#fff";
+    closeButton.style.border = "none";
+    closeButton.style.padding = "10px 20px";
+    closeButton.style.borderRadius = "5px";
+    closeButton.style.cursor = "pointer";
+    closeButton.onclick = function () {
+      document.body.removeChild(modal);
+    };
+  
+    modalContent.appendChild(text);
+    modalContent.appendChild(closeButton);
+  
+    modal.appendChild(modalContent);
+  
+    document.body.appendChild(modal);
+  }
+  
+  
+
+
+
+
+
   const handleDateChange = (dates) => {
     const [start, end] = dates;
 
@@ -129,7 +235,7 @@ const Detalles = () => {
       currentDate.setDate(currentDate.getDate() + 1)
     ) {
       if (blockedDates.includes(currentDate.toISOString())) {
-        alert("Esa fecha ya se encuentra reservada");
+        showModal("Esa fecha ya se encuentra reservada");
         setStartDate(null);
         setEndDate(null);
         return;
@@ -141,7 +247,7 @@ const Detalles = () => {
     });
 
     if (intersectsWithBlockedRanges) {
-      alert("No se puede reservar porque contiene fechas bloqueadas.");
+      showModal("La reserva contiene dias ya reservados");
       setStartDate(null);
       setEndDate(null);
       return;
@@ -150,6 +256,7 @@ const Detalles = () => {
     setStartDate(start);
     setEndDate(end);
   };
+
 
   return (
     <div className="details-container">

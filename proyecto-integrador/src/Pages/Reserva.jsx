@@ -76,6 +76,144 @@ const MyForm = () => {
     }
   }, [location.state]);
 
+  function confirmModal(message) {
+    return new Promise((resolve) => {
+      let modal = document.createElement("div");
+      modal.style.display = "flex";
+      modal.style.justifyContent = "center";
+      modal.style.alignItems = "center";
+      modal.style.position = "fixed";
+      modal.style.top = "0";
+      modal.style.right = "0";
+      modal.style.bottom = "0";
+      modal.style.left = "0";
+      modal.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+      modal.style.zIndex = "1000";
+  
+      let modalContent = document.createElement("div");
+      modalContent.style.backgroundColor = "#fff";
+      modalContent.style.padding = "20px";
+      modalContent.style.borderRadius = "8px";
+      modalContent.style.maxWidth = "80%";
+      modalContent.style.minWidth = "300px";
+      modalContent.style.display = "flex";
+      modalContent.style.flexDirection = "column";
+      modalContent.style.gap = "20px";
+      modalContent.style.alignItems = "center";
+  
+      let text = document.createElement("p");
+      text.innerText = message;
+      text.style.textAlign = "center";
+  
+      let buttonContainer = document.createElement("div");
+      buttonContainer.style.display = "flex";
+      buttonContainer.style.justifyContent = "space-between";
+      buttonContainer.style.width = "100%";
+  
+      let confirmButton = document.createElement("button");
+      confirmButton.innerText = "Confirmar";
+      confirmButton.style.backgroundColor = "#007BFF";
+      confirmButton.style.color = "#fff";
+      confirmButton.style.border = "none";
+      confirmButton.style.padding = "10px 20px";
+      confirmButton.style.borderRadius = "5px";
+      confirmButton.style.cursor = "pointer";
+      confirmButton.style.flexGrow = "1";
+      confirmButton.onclick = function () {
+        document.body.removeChild(modal);
+        resolve(true);
+      };
+  
+      let cancelButton = document.createElement("button");
+      cancelButton.innerText = "Cancelar";
+      cancelButton.style.backgroundColor = "#dc3545";
+      cancelButton.style.color = "#fff";
+      cancelButton.style.border = "none";
+      cancelButton.style.padding = "10px 20px";
+      cancelButton.style.borderRadius = "5px";
+      cancelButton.style.cursor = "pointer";
+      cancelButton.style.flexGrow = "1";
+      cancelButton.style.marginLeft = "20px";
+      cancelButton.onclick = function () {
+        document.body.removeChild(modal);
+        resolve(false);
+      };
+  
+      buttonContainer.appendChild(confirmButton);
+      buttonContainer.appendChild(cancelButton);
+  
+      modalContent.appendChild(text);
+      modalContent.appendChild(buttonContainer);
+  
+      modal.appendChild(modalContent);
+  
+      document.body.appendChild(modal);
+    });
+  }
+  
+  
+
+
+
+
+
+  function showModal(message) {
+    // Crear un elemento modal
+    let modal = document.createElement("div");
+    modal.style.display = "flex";
+    modal.style.justifyContent = "center";
+    modal.style.alignItems = "center";
+    modal.style.position = "fixed";
+    modal.style.top = "0";
+    modal.style.right = "0";
+    modal.style.bottom = "0";
+    modal.style.left = "0";
+    modal.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+    modal.style.zIndex = "1000";
+  
+    // Crear un contenedor para el contenido del modal
+    let modalContent = document.createElement("div");
+    modalContent.style.backgroundColor = "#fff";
+    modalContent.style.padding = "20px";
+    modalContent.style.borderRadius = "8px";
+    modalContent.style.maxWidth = "80%";
+    modalContent.style.minWidth = "300px";
+    modalContent.style.maxHeight = "80%";
+    modalContent.style.overflowY = "auto";
+  
+    // Crear un elemento de texto
+    let text = document.createElement("p");
+    text.innerText = message;
+    text.style.marginBottom = "20px";
+  
+    // Crear un botón de cierre
+    let closeButton = document.createElement("button");
+    closeButton.innerText = "Cerrar";
+    closeButton.style.backgroundColor = "#007BFF";
+    closeButton.style.color = "#fff";
+    closeButton.style.border = "none";
+    closeButton.style.padding = "10px 20px";
+    closeButton.style.borderRadius = "5px";
+    closeButton.style.cursor = "pointer";
+    closeButton.onclick = function () {
+      document.body.removeChild(modal);
+    };
+  
+    // Agregar texto y botón al contenedor del modal
+    modalContent.appendChild(text);
+    modalContent.appendChild(closeButton);
+  
+    // Agregar contenedor al modal
+    modal.appendChild(modalContent);
+  
+    // Agregar modal al cuerpo del documento
+    document.body.appendChild(modal);
+  }
+  
+
+
+
+
   const handleCalendarChange = (date) => {
     for (
       let currentDate = new Date(date[0]);
@@ -87,7 +225,7 @@ const MyForm = () => {
           (range) => currentDate >= range.startDate && currentDate <= range.endDate
         )
       ) {
-        alert('Esa fecha ya se encuentra reservada');
+        showModal('Esa fecha ya se encuentra reservada');
         setDates({
           start: null,
           end: null,
@@ -104,44 +242,49 @@ const MyForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const isConfirmed = window.confirm('¿Confirmar la reserva?');
-    if (isConfirmed) {
-      try {
-        for (
-          let currentDate = new Date(dates.start);
-          currentDate <= dates.end;
-          currentDate.setDate(currentDate.getDate() + 1)
-        ) {
-          if (
-            blockedRanges.some(
-              (range) => currentDate >= range.startDate && currentDate <= range.endDate
-            )
+  
+    confirmModal('¿Confirmar la reserva?').then(async (isConfirmed) => {
+      if (isConfirmed) {
+        try {
+          for (
+            let currentDate = new Date(dates.start);
+            currentDate <= dates.end;
+            currentDate.setDate(currentDate.getDate() + 1)
           ) {
-            alert('No se puede reservar porque contiene fechas bloqueadas.');
-            return;
+            if (
+              blockedRanges.some(
+                (range) => currentDate >= range.startDate && currentDate <= range.endDate
+              )
+            ) {
+              showModal('Esa reserva contiene dias ya reservados');
+              return;
+            }
           }
+  
+          const reservationData = {
+            userId: formData.id,
+            comidaIds: [detalleInfo.id],
+            fechaInicio: formatDate(dates.start),
+            fechaFin: formatDate(dates.end),
+          };
+  
+          const response = await axios.post(
+            `${import.meta.env.VITE_BASE_SERVER_URL}/reservas`,
+            reservationData
+          );
+  
+          showModal('Reserva realizada con exito!');
+        } catch (error) {
+          showModal('La reserva debe ser superior a 48 horas');
+          console.error(error);
         }
-
-        const reservationData = {
-          userId: formData.id,
-          comidaIds: [detalleInfo.id],
-          fechaInicio: formatDate(dates.start),
-          fechaFin: formatDate(dates.end),
-        };
-
-        const response = await axios.post(
-          `${import.meta.env.VITE_BASE_SERVER_URL}/reservas`,
-          reservationData
-        );
-
-        alert('Reserva realizada con éxito!');
-      } catch (error) {
-        alert('No se pudo realizar la reserva!');
-        console.error(error);
       }
-    }
+    });
   };
+  
+
+
+
 
   return (
     <div className="container row">
@@ -189,17 +332,6 @@ const MyForm = () => {
                   />
                 </div>
 
-                <div className="form-group">
-                  <label>Ciudad:&nbsp;</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="ciudad"
-                    value={formData.ciudad}
-                    placeholder="Ingresa tu ciudad"
-                    readOnly
-                  />
-                </div>
               </div>
             </div>
 
@@ -235,8 +367,8 @@ const MyForm = () => {
           <div className="title">Detalle de Reserva</div>
           <img src={detalleInfo.imagenes[0]} alt="Imagen de producto" />
           <div className="subtitle">{detalleInfo.nombre}</div>
-          <div className="dates">Fecha de inicio: {formatDate(dates.start)}</div>
-          <div className="dates">Fecha de finalización: {formatDate(dates.end)}</div>
+          <div className="dates">Fecha inicio: {formatDate(dates.start)}</div>
+          <div className="dates">Fecha fin: {formatDate(dates.end)}</div>
         </div>
       </div>
     </div>
