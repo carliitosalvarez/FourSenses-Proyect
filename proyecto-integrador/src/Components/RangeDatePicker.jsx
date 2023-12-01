@@ -23,7 +23,7 @@ const RangeDatePicker = ({ startDate, endDate, onDateChange }) => {
         monthsShown={2}
         minDate={new Date()}
         selectsRange
-        placeholderText="Selecciona un rango de fechas"
+        placeholderText="Rango de Fechas"
         dateFormat="dd/MM/yyyy"
         isClearable
         className="form-control"
