@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../Styles/home.css";
@@ -122,26 +123,29 @@ const Home = () => {
     }
   };
 
-  const handleSearch = () => {
-    setLoading(true);
-    setIsSearching(true);
-    setTimeout(() => {
-      const newFilteredData = dataFetch.filter((producto) => {
-        const categoryMatch =
-          selectedCategory === "" || producto.categoria === selectedCategory;
-        const textMatch =
-          searchText === "" ||
-          producto.nombre.toLowerCase().includes(searchText.toLowerCase()) ||
-          producto.descripcion.toLowerCase().includes(searchText.toLowerCase());        
-        const favoritesMatch = !showOnlyFavorites || isFavorite(producto.id);
-        return categoryMatch && textMatch && favoritesMatch;
-      });
-      setCurrentPage(1);
-      setData(newFilteredData);
-      setIsSearching(false);
-      setLoading(false);
-    }, 1000);
-  };
+  // Comentado para evitar su uso
+   const handleSearch = () => {
+     setLoading(true);
+     setIsSearching(true);
+     setTimeout(() => {
+       const newFilteredData = dataFetch.filter((producto) => {
+  //       const categoryMatch =
+  //         selectedCategory === "" || producto.categoria === selectedCategory;
+  //       const textMatch =
+  //         searchText === "" ||
+  //         producto.nombre.toLowerCase().includes(searchText.toLowerCase()) ||
+  //         producto.descripcion.toLowerCase().includes(searchText.toLowerCase());        
+         const favoritesMatch = !showOnlyFavorites || isFavorite(producto.id);
+        // return categoryMatch && textMatch && favoritesMatch;
+
+         return favoritesMatch;
+       });
+       setCurrentPage(1);
+       setData(newFilteredData);
+       setIsSearching(false);
+       setLoading(false);
+     }, 1000);
+   };
 
   const handleShowOnlyFavoritesChange = () => {
     setShowOnlyFavorites(!showOnlyFavorites);
