@@ -152,7 +152,7 @@ const Home = () => {
       <div className="row">
         <div className="col-12">
           <h3 className="mb-4">
-            Buscar ofertas en servicios de catering y más
+          ¡Descubre el catering perfecto para tu próximo evento! 
           </h3>
           <div className="input-group mb-4">
             <div className="search">
