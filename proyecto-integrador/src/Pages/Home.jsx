@@ -15,8 +15,12 @@ import { faStar as faRegularStar } from "@fortawesome/free-regular-svg-icons";
 import { Form } from "react-bootstrap";
 import RangeDatePicker from '../Components/RangeDatePicker'; 
 import { useAuth } from "../Context/AuthContext";
+import queryString from 'query-string';
+import moment from 'moment';
+import DatePicker from 'react-datepicker';
 
-const categorias = ["Desayuno", "Desayunos y Brunch", "Cenas", "Postres", "Buffets"];
+
+const categorias = ["Desayunos y Brunch", "Cenas", "Postres", "Buffets"];
 
 const Home = () => {
   const { user } = useAuth();
@@ -31,6 +35,10 @@ const Home = () => {
   const [isRequesting, setIsRequesting] = useState(false); 
   const [showOnlyFavorites, setShowOnlyFavorites] = useState(false); 
   const itemsPerPage = 10;
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
+
 
   const fetchFavorites = async () => {
     try {
@@ -123,29 +131,67 @@ const Home = () => {
     }
   };
 
-  // Comentado para evitar su uso
-   const handleSearch = () => {
-     setLoading(true);
-     setIsSearching(true);
-     setTimeout(() => {
-       const newFilteredData = dataFetch.filter((producto) => {
-  //       const categoryMatch =
-  //         selectedCategory === "" || producto.categoria === selectedCategory;
-  //       const textMatch =
-  //         searchText === "" ||
-  //         producto.nombre.toLowerCase().includes(searchText.toLowerCase()) ||
-  //         producto.descripcion.toLowerCase().includes(searchText.toLowerCase());        
-         const favoritesMatch = !showOnlyFavorites || isFavorite(producto.id);
-        // return categoryMatch && textMatch && favoritesMatch;
 
-         return favoritesMatch;
-       });
-       setCurrentPage(1);
-       setData(newFilteredData);
-       setIsSearching(false);
-       setLoading(false);
-     }, 1000);
-   };
+//////////////////////////////////////////////////////////////////////////////
+  const handleSearch = async () => {
+    setLoading(true);
+    setIsSearching(true);
+  
+    try {
+      let newFilteredData = [];
+  
+      if (showOnlyFavorites) {
+        newFilteredData = dataFetch.filter((producto) => isFavorite(producto.id));
+      } else {
+        let searchParams = {};
+  
+        if (searchText) {
+          searchParams.nombre = searchText;
+        }
+  
+        if (selectedCategory && selectedCategory !== "Seleccione una categoría") {
+          searchParams.categoria = selectedCategory;
+        }
+  
+        if (startDate && endDate) {
+          // Formatea las fechas usando moment
+          const formattedStartDate = moment(startDate).format('YYYY-MM-DD');
+          const formattedEndDate = moment(endDate).format('YYYY-MM-DD');
+          console.log(`Fecha Inicio: ${formattedStartDate}, Fecha Fin: ${formattedEndDate}`);
+          searchParams.fechaInicio = formattedStartDate;
+          searchParams.fechaFin = formattedEndDate;
+        }
+  
+        // Log para verificar los parámetros de búsqueda
+        console.log("searchParams:", searchParams);
+  
+        const response = await axios.get(`${import.meta.env.VITE_BASE_SERVER_URL}/reservas/buscar`, {
+          params: searchParams,
+        });
+  
+        // Log para verificar la respuesta del servidor
+        console.log("Server response:", response.data);
+  
+        newFilteredData = response.data;
+      }
+  
+      setCurrentPage(1);
+      setData(newFilteredData);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsSearching(false);
+      setLoading(false);
+    }
+  };
+  
+  //////////////////////////////////////////////////////////////////////////////
+  
+  
+  
+
+
+   
 
   const handleShowOnlyFavoritesChange = () => {
     setShowOnlyFavorites(!showOnlyFavorites);
@@ -171,8 +217,15 @@ const Home = () => {
               />
             </div>
             <div className="picker">
-              <RangeDatePicker />
-            </div>
+        <RangeDatePicker
+          startDate={startDate}
+          endDate={endDate}
+          onDateChange={({ startDate, endDate }) => {
+            setStartDate(startDate);
+            setEndDate(endDate);
+          }}
+        />
+      </div>
             <div className="category-select">
               <Form.Control
                 as="select"

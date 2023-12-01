@@ -5,6 +5,7 @@ import { parseISO } from 'date-fns';
 import { useLocation } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
+import "../Styles/datapicker.css";
 
 const formatDate = (date) => {
   if (!date) {
@@ -335,7 +336,7 @@ const MyForm = () => {
               </div>
             </div>
 
-            <h2>Calendario Doble</h2>
+            <h2>Fechas de Reserva</h2>
             <div className="d-flex justify-content-center">
               <DatePicker
                 selected={initialDate}
