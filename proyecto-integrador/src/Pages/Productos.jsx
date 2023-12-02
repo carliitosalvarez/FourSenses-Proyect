@@ -83,21 +83,98 @@ const Productos = () => {
     }
   };
 
+
+  function confirmModal(message) {
+    return new Promise((resolve) => {
+      let modal = document.createElement("div");
+      modal.style.display = "flex";
+      modal.style.justifyContent = "center";
+      modal.style.alignItems = "center";
+      modal.style.position = "fixed";
+      modal.style.top = "0";
+      modal.style.right = "0";
+      modal.style.bottom = "0";
+      modal.style.left = "0";
+      modal.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+      modal.style.zIndex = "1000";
+  
+      let modalContent = document.createElement("div");
+      modalContent.style.backgroundColor = "#fff";
+      modalContent.style.padding = "20px";
+      modalContent.style.borderRadius = "8px";
+      modalContent.style.maxWidth = "80%";
+      modalContent.style.minWidth = "300px";
+      modalContent.style.display = "flex";
+      modalContent.style.flexDirection = "column";
+      modalContent.style.gap = "20px";
+      modalContent.style.alignItems = "center";
+  
+      let text = document.createElement("p");
+      text.innerText = message;
+      text.style.textAlign = "center";
+  
+      let buttonContainer = document.createElement("div");
+      buttonContainer.style.display = "flex";
+      buttonContainer.style.justifyContent = "space-between";
+      buttonContainer.style.width = "100%";
+  
+      let confirmButton = document.createElement("button");
+      confirmButton.innerText = "Confirmar";
+      confirmButton.style.backgroundColor = "#007BFF";
+      confirmButton.style.color = "#fff";
+      confirmButton.style.border = "none";
+      confirmButton.style.padding = "10px 20px";
+      confirmButton.style.borderRadius = "5px";
+      confirmButton.style.cursor = "pointer";
+      confirmButton.style.flexGrow = "1";
+      confirmButton.onclick = function () {
+        document.body.removeChild(modal);
+        resolve(true);
+      };
+  
+      let cancelButton = document.createElement("button");
+      cancelButton.innerText = "Cancelar";
+      cancelButton.style.backgroundColor = "#dc3545";
+      cancelButton.style.color = "#fff";
+      cancelButton.style.border = "none";
+      cancelButton.style.padding = "10px 20px";
+      cancelButton.style.borderRadius = "5px";
+      cancelButton.style.cursor = "pointer";
+      cancelButton.style.flexGrow = "1";
+      cancelButton.style.marginLeft = "20px";
+      cancelButton.onclick = function () {
+        document.body.removeChild(modal);
+        resolve(false);
+      };
+  
+      buttonContainer.appendChild(confirmButton);
+      buttonContainer.appendChild(cancelButton);
+  
+      modalContent.appendChild(text);
+      modalContent.appendChild(buttonContainer);
+  
+      modal.appendChild(modalContent);
+  
+      document.body.appendChild(modal);
+    });
+  }
+
   const handleDelete = async (id) => {
-    if (window.confirm("¿Estás seguro de eliminar este producto?")) {
-      try {
+    try {
+      const userConfirmed = await confirmModal("¿Estás seguro de eliminar este producto?");
+  
+      if (userConfirmed) {
         await axios.delete(
           `${import.meta.env.VITE_BASE_SERVER_URL}/comidas/${id}`
         );
-        const updatedProducts = products.filter((product) =>
-          product.id !== id
-        );
+        const updatedProducts = products.filter((product) => product.id !== id);
         setProducts(updatedProducts);
-      } catch (error) {
-        console.error(error);
       }
+    } catch (error) {
+      console.error(error);
     }
   };
+  
 
   const handleAddNew = async () => {
     try {
