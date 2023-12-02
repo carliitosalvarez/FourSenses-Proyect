@@ -11,7 +11,7 @@ import SignUp from '../Pages/SignUp';
 import User from './Users';
 import Productos from '../Pages/Productos';
 import Reserva from '../Pages/Reserva';
-import Historial from '../Pages/Historial'
+import Historial from '../Pages/Historial';
 
 
 const App = () => {

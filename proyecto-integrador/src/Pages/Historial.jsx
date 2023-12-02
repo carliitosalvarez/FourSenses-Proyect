@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../Styles/historial.css';
 import { useAuth } from '../Context/AuthContext';
+import { Link } from 'react-router-dom';
+
 
 const Historial = () => {
   const [historialData, setHistorialData] = useState([]);
@@ -14,7 +16,7 @@ const Historial = () => {
         if (user && user.id) {
           const response = await axios.get(
             `${import.meta.env.VITE_BASE_SERVER_URL}/reservas/historial/${user.id}`
-          );
+          );         
           const historialData = response.data;
           setHistorialData(historialData);
         }
@@ -54,14 +56,14 @@ const Historial = () => {
           </thead>
           <tbody>
             {historialData.map((reserva, index) => (
-              <tr key={index}>
-                <td>
-                  <a href={`/detalles/${reserva[0]}`}>{reserva[1]}</a>
-                </td>
-                <td>{reserva[2]}</td>
-                <td>{reserva[3]}</td>
-                <td>{new Date(reserva[4]).toLocaleString(undefined, opcionesFechaHora)}</td>
-              </tr>
+         <tr key={index}>
+         <td>
+           <Link to={`/detalles/${reserva[0]}`}>{reserva[1]}</Link>
+         </td>
+         <td>{reserva[2]}</td>
+         <td>{reserva[3]}</td>
+         <td>{new Date(reserva[4]).toLocaleString(undefined, opcionesFechaHora)}</td>
+       </tr>
             ))}
           </tbody>
         </table>

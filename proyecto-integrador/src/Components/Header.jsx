@@ -8,6 +8,8 @@ import { useAuth } from '../Context/AuthContext';
 import logo from '../images/FourSenses-Logo.png'; 
 import '../Styles/header.css';
 import Modal from './Modal'; 
+import { useNavigate } from 'react-router-dom';
+
 
 const Header = () => {
   const { user, logout, isAdmin } = useAuth();
@@ -25,8 +27,11 @@ const Header = () => {
     setShowModal(true);
   };
 
+  const navigate = useNavigate();
+
+
   const handleHistorial = () => {
-      window.location.href = '/historial'; 
+    navigate('/historial');
   };
 
   const initials = user ? `${(user.name?.charAt(0) || '').toUpperCase()}${(user.surName?.charAt(0) || '').toUpperCase()}` : '';
