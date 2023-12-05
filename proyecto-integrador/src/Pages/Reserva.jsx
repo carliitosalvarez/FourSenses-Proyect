@@ -6,6 +6,8 @@ import { useLocation } from 'react-router-dom';
 //import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 //import '../Styles/datapicker.css';
+import { useNavigate } from 'react-router-dom';
+
 
 const formatDate = (date) => {
   if (!date) {
@@ -233,6 +235,7 @@ const Reserva = () => {
       end: date[1],
     });
   };
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -268,7 +271,8 @@ const Reserva = () => {
           );
   
           showModal('Reserva realizada con exito!');
-        } catch (error) {
+            navigate('/');
+                 } catch (error) {
           showModal('La reserva debe ser superior a 48 horas');
           console.error(error);
         }
@@ -276,6 +280,10 @@ const Reserva = () => {
     });
   };
   
+
+
+
+
 
 
 
